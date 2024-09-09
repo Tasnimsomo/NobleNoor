@@ -1,34 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './Profile/Login.js';
-import Signup from './Profile/Signup.js';
-import AccountPage from './Profile/AccountPage.js';
+import Login from './Profile/Login';
+import Signup from './Profile/Signup';
+import PrivateRoute from './PrivateRoute';
+import AccountPage from './Profile/AccountPage';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
-  const handleLogin = (userData) => {
-    setIsAuthenticated(true);
-    setUser(userData);
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
-  };
-
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/signup" element={<Signup onSignup={handleLogin} />} />
-          <Route path="/account" element={
-            isAuthenticated ? <AccountPage user={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />
-          } />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/account" element={<AccountPage />} />
+        </Route>
+        {/* You can add a catch-all route to redirect to login if you want */}
+        <Route path="*" element={<Login />} />
+      </Routes>
     </Router>
   );
 }

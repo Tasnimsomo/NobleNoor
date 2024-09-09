@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
+import { login } from '../api';  // Update the path as necessary
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const Login = () => {
         password: ''
     });
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -17,39 +19,24 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setIsLoading(true);
 
         try {
-            // Send a POST request to the backend's login endpoint
-            const response = await fetch('http://localhost:3000/login', { // Replace with your actual backend URL
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData) // Send email and password
-            });
+            const response = await login(formData);
+            
+            // Store the token in localStorage
+            localStorage.setItem('jwtToken', response.token);
 
-            const data = await response.json();
-
-            if (response.ok) {
-                // Backend sends the token in the response body
-                const token = data.token;
-
-                // Store the token in localStorage or sessionStorage
-                localStorage.setItem('jwtToken', token);
-
-                // Redirect based on role (optional)
-                if (data.role === 'admin') {
-                    navigate('/admin-dashboard');
-                } else {
-                    navigate('/'); // Redirect to home page after successful login
-                }
+            // Redirect based on role
+            if (response.role === 'admin') {
+                navigate('/admin-dashboard');
             } else {
-                // Display error message if login fails
-                setError(data.message || 'Login failed. Please try again.');
+                navigate('/');
             }
         } catch (error) {
-            // Handle network errors or other unexpected issues
-            setError('An error occurred. Please try again later.');
+            setError(error.message || 'An error occurred during login');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -84,7 +71,9 @@ const Login = () => {
                     <Link to="/forgot-password">Forgot password?</Link>
                 </div>
 
-                <button type="submit" className="submit-btn">Login</button>
+                <button type="submit" className="submit-btn" disabled={isLoading}>
+                    {isLoading ? 'Logging in...' : 'Login'}
+                </button>
 
                 <p className="login-redirect">
                     Create new account <Link to="/signup">Signup</Link>
