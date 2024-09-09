@@ -34,7 +34,7 @@ const Login = () => {
                 navigate('/');
             }
         } catch (error) {
-            setError(error.message || 'An error occurred during login');
+            setError(error.message || 'password or email is incorrect');
         } finally {
             setIsLoading(false);
         }
