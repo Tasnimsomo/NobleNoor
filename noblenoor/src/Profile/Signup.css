@@ -1,0 +1,68 @@
+.form-container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+p {
+    text-align: center;
+    color: #6b6b6b;
+    margin-bottom: 20px;
+}
+
+
+.input-group {
+    margin-bottom: 15px;
+    margin-top: 25px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    color: #6b6b6b;
+    text-decoration: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #fa9530;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    
+}
+
+.login-redirect {
+    text-align: center;
+    margin-top: 20px;
+    color: #6b6b6b;
+}
+
+.login-redirect a {
+    color: #007bff;
+    text-decoration: none;
+}
