@@ -1,28 +1,15 @@
-// AccountPage.js
-import React from 'react';
-import './AccountPage.css';
+import { logout } from '../api';
+import { useNavigate } from 'react-router-dom';
+const AccountPage = () => {
+  const navigate = useNavigate();
 
-const AccountPage = ({ user }) => {
-  
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
-    <div className="account-page">
-      <h1>Account</h1>
-      <button className="logout-button">Log out</button>
-      
-      <div className="account-sections">
-        <div className="section order-history">
-          <h2>Order history</h2>
-          <p>You haven't placed any orders yet.</p>
-        </div>
-        
-        <div className="section account-details">
-          <h2>Account details</h2>
-          <p className="user-name">{user.name}</p>
-          <p className="user-location">{user.location}</p>
-          <p className="user-country">{user.country}</p>
-        </div>
-      </div>
-    </div>
+    <button onClick={handleLogout}>Logout</button>
   );
 };
 
