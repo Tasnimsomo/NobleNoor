@@ -1,12 +1,18 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4; /* Light background for contrast */
+    margin: 0;
+}
+
 .form-container {
     width: 400px;
-    margin: 0 auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 100px;
-
 }
 
 h2 {
@@ -44,7 +50,7 @@ p {
 .submit-btn {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #fa9530;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -52,64 +58,10 @@ p {
     font-size: 16px;
 }
 
-.form-container {
-    width: 100%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 100px;
-
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-p {
-    text-align: center;
-    color: #6b6b6b;
-    margin-bottom: 20px;
-}
-
-.input-group {
-    margin-bottom: 15px;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
-}
-
-.forgot-password {
-    text-align: right;
-    margin-bottom: 20px;
-}
-
-.forgot-password a {
-    color: #6b6b6b;
-    text-decoration: none;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-/* Add media queries for responsiveness */
+/* Media Queries */
 @media (max-width: 768px) {
     .form-container {
         width: 90%;
-        margin: 0 auto;
     }
 
     .submit-btn {
@@ -122,6 +74,7 @@ p {
         width: 100%;
         padding: 15px;
     }
+    
     .submit-btn {
         font-size: 12px;
     }
