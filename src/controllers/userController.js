@@ -42,7 +42,10 @@ exports.register = async (req, res) => {
         // Send registration email
         await sendRegistrationEmail(newUser.email, newUser.firstName);
 
-        return res.status(201).json(newUser);
+        return res.status(201).json({
+		message:'User successfully registered',
+		newUser
+	});
     } catch (err) {
         return res.status(400).json({ message: err.message });
     }
