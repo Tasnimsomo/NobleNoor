@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { logout } from './api';  // Import logout function
 import './AccountPage.css';
 
 const AccountPage = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('/profile');
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+          navigate('/login');  // If no token, redirect to login
+          return;
+        }
+
+        const response = await axios.get(${API_URL}/profile, {
+          headers: {
+            Authorization: Bearer ${token},
+          },
+        });
         setUser(response.data);
       } catch (error) {
         console.error('Failed to fetch profile:', error);
+        navigate('/login');  // Redirect to login if fetching profile fails
       }
     };
 
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
-    // Implement logout logic here
-    console.log('Logging out...');
+    logout();  // Call logout function
+    navigate('/');  // Redirect to home after logout
   };
 
   if (!user) {
-    return <div>You are not a user</div>;
+    return <div>You are not logged in. Please log in first.</div>;
   }
 
   return (
