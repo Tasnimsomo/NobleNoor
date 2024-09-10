@@ -18,16 +18,16 @@ function Icons() {
         };
 
         const checkLoginStatus = () => {
-            // Check if the JWT token exists
-            const token = localStorage.getItem('jwtToken');
-            setIsLoggedIn(!!token);  // Update state based on token presence
+            // Example: check if the user is logged in by checking a flag in localStorage
+            const loggedIn = localStorage.getItem('isLoggedIn');
+            setIsLoggedIn(loggedIn === 'true');
         };
 
-        updateCartCount();  // Initial cart count
-        checkLoginStatus();  // Check login status on initial render
+        updateCartCount(); // Initial cart count
+        checkLoginStatus(); // Check login status on initial render
 
         window.addEventListener('cartUpdated', updateCartCount);
-        window.addEventListener('loginStatusChanged', checkLoginStatus);
+        window.addEventListener('loginStatusChanged', checkLoginStatus); // Optional: Listen for login status changes
 
         return () => {
             window.removeEventListener('cartUpdated', updateCartCount);
