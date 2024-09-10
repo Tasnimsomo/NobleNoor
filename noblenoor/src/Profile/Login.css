@@ -1,14 +1,14 @@
-body {
+.login-form-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f4f4f4; /* Light background for contrast */
-    margin: 0;
+    background-color: #f4f4f4;
 }
 
 .form-container {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -58,24 +58,22 @@ p {
     font-size: 16px;
 }
 
-/* Media Queries */
-@media (max-width: 768px) {
-    .form-container {
-        width: 90%;
-    }
-
-    .submit-btn {
-        font-size: 14px;
-    }
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-@media (max-width: 480px) {
-    .form-container {
-        width: 100%;
-        padding: 15px;
-    }
-    
-    .submit-btn {
-        font-size: 12px;
-    }
+.login-redirect {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login-redirect a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-redirect a:hover {
+    text-decoration: underline;
 }
