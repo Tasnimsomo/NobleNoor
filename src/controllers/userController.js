@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { User, validate } = require('../models/users');
 const bcrypt = require('bcrypt');
-const sendRegistrationEmail = require('../utils/email');
+const sendRegistrationEmail = require('../services/welcomeEmail');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
