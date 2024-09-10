@@ -11,7 +11,9 @@ const userRoutes = require('./userRoutes');
 
 const adminRoutes = require('./adminRoutes');
 
+
 const profileRoutes = require('./profileRouter');
+
 
 // mount the userRoute on the /users route
 router.use('/users', userRoutes);
