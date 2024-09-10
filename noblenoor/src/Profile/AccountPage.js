@@ -23,6 +23,9 @@ const AccountPage = () => {
     console.log('Logging out...');
   };
 
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="accounts-page">
