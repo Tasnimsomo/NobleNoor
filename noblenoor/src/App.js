@@ -19,13 +19,6 @@ function App() {
     setUser(null);
   };
 
-  // Mock user data for testing
-  const mockUser = {
-    name: "John Doe",
-    country: "Singapore",
-    // Add other user properties as needed
-  };
-
   return (
     <Router>
       <div className="App">
@@ -35,8 +28,7 @@ function App() {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup onSignup={handleLogin} />} />
           <Route path="/account" element={
-            // Temporarily bypass authentication check
-            <AccountPage user={mockUser} onLogout={handleLogout} />
+            isAuthenticated ? <AccountPage user={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />
           } />
         </Routes>
       </div>
