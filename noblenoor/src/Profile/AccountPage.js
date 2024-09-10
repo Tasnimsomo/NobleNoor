@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { logout } from './api';  // Import logout function
+import { logout, API_URL } from '../api';  // Import logout function
 import './AccountPage.css';
 
 const AccountPage = () => {
@@ -17,9 +17,9 @@ const AccountPage = () => {
           return;
         }
 
-        const response = await axios.get(${API_URL}/profile, {
+        const response = await axios.get(`${API_URL}/profile`, {
           headers: {
-            Authorization: Bearer ${token},
+            Authorization: `Bearer ${token}`,
           },
         });
         setUser(response.data);

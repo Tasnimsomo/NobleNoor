@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/';  // Replace with your actual API endpoint
+export const API_URL = 'http://localhost:5000/';  // Replace with your actual API endpoint
 
 // Register a new user
 export const register = async (userData) => {
