@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faShoppingBag, faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingBag, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import './Icons.css';
 
 function Icons() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [cartCount, setCartCount] = useState(0);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);  // New state to track login status
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,11 +17,21 @@ function Icons() {
             setCartCount(cartItems.reduce((total, item) => total + item.quantity, 0));
         };
 
-        updateCartCount(); // Initial count
+        const checkLoginStatus = () => {
+            // Example: check if the user is logged in by checking a flag in localStorage
+            const loggedIn = localStorage.getItem('isLoggedIn');
+            setIsLoggedIn(loggedIn === 'true');
+        };
+
+        updateCartCount(); // Initial cart count
+        checkLoginStatus(); // Check login status on initial render
+
         window.addEventListener('cartUpdated', updateCartCount);
+        window.addEventListener('loginStatusChanged', checkLoginStatus); // Optional: Listen for login status changes
 
         return () => {
             window.removeEventListener('cartUpdated', updateCartCount);
+            window.removeEventListener('loginStatusChanged', checkLoginStatus);
         };
     }, []);
 
@@ -29,7 +40,11 @@ function Icons() {
     };
 
     const goToProfile = () => {
-        navigate('/login');
+        if (isLoggedIn) {
+            navigate('/account');  // Redirect to the account page if the user is logged in
+        } else {
+            navigate('/login');  // Redirect to the login page if the user is not logged in
+        }
     };
 
     const goToCart = () => {
