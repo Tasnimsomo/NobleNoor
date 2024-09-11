@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
-import { login } from '../api';  // Update the path as necessary
+
+const API_URL = 'YOUR_API_URL_HERE';
+
+const login = async (credentials) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/login`, credentials);
+    const { token, role } = response.data;
+    
+    // Store the token
+    localStorage.setItem('jwtToken', token);
+    
+    return { token, role };
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -22,13 +38,10 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const response = await login(formData);
-
-            // Store the token in localStorage
-            localStorage.setItem('jwtToken', response.token);
+            const { role } = await login(formData);
 
             // Redirect based on role
-            if (response.role === 'admin') {
+            if (role === 'admin') {
                 navigate('/adminPage');
             } else {
                 navigate('/');
