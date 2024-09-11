@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 
-const API_URL = 'YOUR_API_URL_HERE';
+const API_URL = 'http://localhost:5000';
 
 const login = async (credentials) => {
   try {
