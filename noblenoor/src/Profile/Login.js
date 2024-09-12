@@ -9,10 +9,6 @@ const login = async (credentials) => {
   try {
     const response = await axios.post(`${API_URL}/users/login`, credentials);
     const { token, role } = response.data;
-    
-    // Store the token
-    localStorage.setItem('jwtToken', token);
-    
     return { token, role };
   } catch (error) {
     throw error.response.data;
@@ -38,13 +34,16 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const { role } = await login(formData);
+            const { token, role } = await login(formData);
+            localStorage.setItem('jwtToken', token);
+            localStorage.setItem('isLoggedIn', 'true');
+            window.dispatchEvent(new Event('loginStatusChanged'));
 
             // Redirect based on role
             if (role === 'admin') {
                 navigate('/adminPage');
             } else {
-                navigate('/');
+                navigate('/account');
             }
         } catch (error) {
             setError(error.message || 'Password or email is incorrect');

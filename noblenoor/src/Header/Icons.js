@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faShoppingBag, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingBag, faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { searchProducts } from '../api';
 import './Icons.css';
 
 function Icons() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [cartCount, setCartCount] = useState(0);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);  // New state to track login status
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,19 +19,14 @@ function Icons() {
             const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
             setCartCount(cartItems.reduce((total, item) => total + item.quantity, 0));
         };
-
         const checkLoginStatus = () => {
-            // Example: check if the user is logged in by checking a flag in localStorage
             const loggedIn = localStorage.getItem('isLoggedIn');
             setIsLoggedIn(loggedIn === 'true');
         };
-
-        updateCartCount(); // Initial cart count
-        checkLoginStatus(); // Check login status on initial render
-
+        updateCartCount();
+        checkLoginStatus();
         window.addEventListener('cartUpdated', updateCartCount);
-        window.addEventListener('loginStatusChanged', checkLoginStatus); // Optional: Listen for login status changes
-
+        window.addEventListener('loginStatusChanged', checkLoginStatus);
         return () => {
             window.removeEventListener('cartUpdated', updateCartCount);
             window.removeEventListener('loginStatusChanged', checkLoginStatus);
@@ -37,13 +35,17 @@ function Icons() {
 
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen);
+        if (!isSearchOpen) {
+            setSearchTerm('');
+            setSearchResults([]);
+        }
     };
 
     const goToProfile = () => {
         if (isLoggedIn) {
-            navigate('/account');  // Redirect to the account page if the user is logged in
+            navigate('/account');
         } else {
-            navigate('/login');  // Redirect to the login page if the user is not logged in
+            navigate('/login');
         }
     };
 
@@ -51,13 +53,33 @@ function Icons() {
         navigate('/cart');
     };
 
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const results = await searchProducts({ name: searchTerm });
+            setSearchResults(results);
+            console.log(results);
+            navigate('/search-results', { state: { results } });
+        } catch (error) {
+            console.error('Error searching products:', error);
+        }
+    };
+
     return (
         <>
             {isSearchOpen ? (
                 <div className="search-overlay">
-                    <input type="text" placeholder="Search..." />
-                    <button onClick={toggleSearch}>
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    <form onSubmit={handleSearch}>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        
+                    </form>
+                    <button className="close-search" onClick={toggleSearch}>
+                        <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </div>
             ) : (

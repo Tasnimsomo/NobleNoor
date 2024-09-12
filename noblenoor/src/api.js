@@ -54,3 +54,13 @@ export const updateProfile = async (token, updates) => {
     throw error.response.data;
   }
 };
+
+// Search products
+export const searchProducts = async (searchParams) => {
+  try {
+    const response = await axios.get(`${API_URL}/products/search`, { params: searchParams });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

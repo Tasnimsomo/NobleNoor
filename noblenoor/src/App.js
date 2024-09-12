@@ -4,10 +4,13 @@ import Header from './Header/Header.js';
 import NavMenu from './Menu/NavMenu.js';
 import HeroSection from './Hero/HeroSection';
 import Collection from './Collection/Collection.js';
+import Cart from './Cart/Cart.js';
+import Checkout from './Cart/Checkout.js';
 import Login from './Profile/Login.js';
 import Signup from './Profile/Signup.js';
 import AccountPage from './Profile/AccountPage.js';
 import AdminPage from './Admin/adminPage.js';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   return (
@@ -18,10 +21,20 @@ function App() {
 
         {/* Regular routes with header */}
         <Route path="/" element={<Layout />}>
+          <Route index element={
+            <>
+              <HeroSection />
+              <Collection titles={["Everyday Abayas", "Summer Collection", "Professional Abayas", "Occasion Abayas", "Jewelry"]} />
+            </>
+          } />
+          <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/account" element={<AccountPage />} />
-          {/* Add other regular routes here */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/account" element={<AccountPage />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
@@ -35,16 +48,18 @@ function Layout() {
       <Header />
       <NavMenu />
       <Routes>
-        <Route path="/" element={
+        <Route index element={
           <>
             <HeroSection />
             <Collection titles={["Everyday Abayas", "Summer Collection", "Professional Abayas", "Occasion Abayas", "Jewelry"]} />
           </>
         } />
+        <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/account" element={<AccountPage />} />
-        {/* Add other regular routes here */}
       </Routes>
     </>
   );

@@ -1,27 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './AccountPage.css';
+
+const API_URL = 'http://localhost:5000';
 
 const AccountPage = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('/profile');
+        const token = localStorage.getItem('jwtToken');
+        const response = await axios.get(`${API_URL}/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUser(response.data);
       } catch (error) {
         console.error('Failed to fetch profile:', error);
+        navigate('/login');
       }
     };
 
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
-    // Implement logout logic here
-    console.log('Logging out...');
+    localStorage.removeItem('jwtToken');
+    localStorage.setItem('isLoggedIn', 'false');
+    window.dispatchEvent(new Event('loginStatusChanged'));
+    navigate('/login');
   };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="accounts-page">
@@ -39,6 +55,7 @@ const AccountPage = () => {
         <div className="account-details">
           <h2>Account details</h2>
           <p>{user.name}</p>
+          <p>{user.email}</p>
           <p>{user.country}</p>
         </div>
       </div>
