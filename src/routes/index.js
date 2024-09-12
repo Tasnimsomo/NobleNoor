@@ -14,13 +14,20 @@ const adminRoutes = require('./adminRoutes');
 
 const profileRoutes = require('./profileRouter');
 
+// import the routes related to products from productRoutes.js
+const productRoutes = require('./productRoutes');
 
+const cartRoutes = require('./cartRoutes');
+
+router.use('/cart', cartRoutes);
 // mount the userRoute on the /users route
 router.use('/users', userRoutes);
 
 router.use('/admin', adminRoutes);
 
 router.use('/profile', profileRoutes);
+
+router.use('/products', productRoutes);
 
 // export the router instance for use in other parts of the application
 module.exports = router;
