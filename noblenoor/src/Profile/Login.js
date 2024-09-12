@@ -85,7 +85,7 @@ const Login = () => {
                     </div>
 
                     <button type="submit" className="submit-btn" disabled={isLoading}>
-                        {isLoading ? 'Logging in...' : 'Login'}
+                        {isLoading ? 'Logging in... logging in...' : 'Login'}
                     </button>
 
                     <p className="login-redirect">
