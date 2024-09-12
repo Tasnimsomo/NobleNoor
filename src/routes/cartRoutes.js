@@ -9,9 +9,11 @@ const auth = require('../middleware/auth');
 router.post('/add', auth, cartController.addToCart);
 
 // Route to remove from cart
-router.post('/remove', auth, cartController.removeFromCart);
+router.delete('/remove/:id', auth, cartController.removeFromCart);
 
 // Route to update cart quantity
 router.post('/update', auth, cartController.updateCartQuantity);
+
+router.get('/items', auth, cartController.getCartItems);
 
 module.exports = router;
