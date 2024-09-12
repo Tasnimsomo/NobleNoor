@@ -23,10 +23,6 @@ const AccountPage = () => {
     console.log('Logging out...');
   };
 
-  if (!user) {
-    return <div>You are not a user</div>;
-  }
-
   return (
     <div className="accounts-page">
       <h1>Account</h1>
