@@ -8,8 +8,7 @@ const API_URL = 'http://localhost:5000';
 const login = async (credentials) => {
   try {
     const response = await axios.post(`${API_URL}/users/login`, credentials);
-    const { token, role } = response.data;
-    return { token, role };
+    return response.data; // Return the entire response data
   } catch (error) {
     throw error.response.data;
   }
@@ -34,18 +33,20 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const { token, role } = await login(formData);
-            localStorage.setItem('jwtToken', token);
+            const data = await login(formData);
+            console.log('Login response:', data); // Add this line for debugging
+            localStorage.setItem('jwtToken', data.token);
             localStorage.setItem('isLoggedIn', 'true');
             window.dispatchEvent(new Event('loginStatusChanged'));
 
             // Redirect based on role
-            if (role === 'admin') {
+            if (data.role === 'admin') {
                 navigate('/adminPage');
             } else {
                 navigate('/account');
             }
         } catch (error) {
+            console.error('Login error:', error); // Add this line for debugging
             setError(error.message || 'Password or email is incorrect');
         } finally {
             setIsLoading(false);
