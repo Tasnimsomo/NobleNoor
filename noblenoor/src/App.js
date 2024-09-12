@@ -11,6 +11,7 @@ import Signup from './Profile/Signup.js';
 import AccountPage from './Profile/AccountPage.js';
 import AdminPage from './Admin/adminPage.js';
 import PrivateRoute from './PrivateRoute';
+import ProductDetail from './Cart/ProductDetail'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             </>
           } />
           <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
+          <Route path="/ProductDetail" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
