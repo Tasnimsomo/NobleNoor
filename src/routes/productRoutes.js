@@ -8,7 +8,7 @@ const router = express.Router();
 const productController = require('../controllers/productController');
 
 // define a route that handles GET requests to the root path to get all products
-router.get('/', productController.getAllProducts); // Corrected function name
+router.get('/search', productController.getAllProducts); // Corrected function name
 
 // export router instance for use in other parts of the application
 module.exports = router;
