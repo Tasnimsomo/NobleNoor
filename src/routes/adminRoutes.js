@@ -4,6 +4,9 @@ const adminController = require('../controllers/adminController');
 const verifyAdmin = require('../middleware/verifyAdmin'); // Adjust the path as needed
 
 
+router.put('/users/promote', verifyAdmin, adminController.changeUserRoleToAdmin);
+
+
 // Routes that require admin access
 router.get('/products', verifyAdmin, adminController.getAllProducts);
 router.get('/products/:id', verifyAdmin, adminController.getProductById);

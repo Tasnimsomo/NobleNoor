@@ -65,6 +65,7 @@ exports.removeFromCart = async (req, res) => {
         const productIndex = cart.products.findIndex(item => item.product.toString() === productId);
         if (productIndex === -1) {
             return res.status(404).json({ error: 'Product not found in cart' });
+<
         }
 
         // Get the price of the product from the Product model
