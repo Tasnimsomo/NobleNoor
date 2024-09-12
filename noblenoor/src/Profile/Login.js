@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
-import { login } from '../api';  // Update the path as necessary
+
+const API_URL = 'http://localhost:5000';
+
+const login = async (credentials) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/login`, credentials);
+    return response.data; // Return the entire response data
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -22,18 +33,20 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const response = await login(formData);
-
-            // Store the token in localStorage
-            localStorage.setItem('jwtToken', response.token);
+            const data = await login(formData);
+            console.log('Login response:', data); // Add this line for debugging
+            localStorage.setItem('jwtToken', data.token);
+            localStorage.setItem('isLoggedIn', 'true');
+            window.dispatchEvent(new Event('loginStatusChanged'));
 
             // Redirect based on role
-            if (response.role === 'admin') {
-                navigate('/admin-dashboard');
+            if (data.role === 'admin') {
+                navigate('/adminPage');
             } else {
-                navigate('/');
+                navigate('/account');
             }
         } catch (error) {
+            console.error('Login error:', error); // Add this line for debugging
             setError(error.message || 'Password or email is incorrect');
         } finally {
             setIsLoading(false);
@@ -73,7 +86,7 @@ const Login = () => {
                     </div>
 
                     <button type="submit" className="submit-btn" disabled={isLoading}>
-                        {isLoading ? 'Logging in...' : 'Login'}
+                        {isLoading ? 'Logging in... logging in...' : 'Login'}
                     </button>
 
                     <p className="login-redirect">

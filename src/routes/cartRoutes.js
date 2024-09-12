@@ -11,9 +11,15 @@ router.post('/add', auth, cartController.addToCart);
 // Route to remove from cart
 router.delete('/remove/:id', auth, cartController.removeFromCart);
 
+
 // Route to update cart quantity
 router.post('/update', auth, cartController.updateCartQuantity);
 
+
+
+// route for getting cart items
 router.get('/items', auth, cartController.getCartItems);
+
+
 
 module.exports = router;
