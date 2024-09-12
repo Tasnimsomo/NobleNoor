@@ -287,7 +287,7 @@ function Collection({ titles, isFullView = false }) {
                 "description": "Naimah Jewels 8 is an exquisite jewelry set that combines opulence with intricate detailing. The design is bold yet graceful, making it perfect for formal occasions or as a statement piece. With its radiant finish and luxurious design, this piece is sure to become a treasured part of your collection."
               }
             ]
-        },          
+        }          
     ];
     
     const currentCollections = isFullView
