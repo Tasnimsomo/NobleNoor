@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './Header/Header.js';
+import NavMenu from './Menu/NavMenu.js';
+import HeroSection from './Hero/HeroSection'
 import Login from './Profile/Login.js';
 import Signup from './Profile/Signup.js';
 import AccountPage from './Profile/AccountPage.js';
@@ -30,7 +32,14 @@ function Layout() {
   return (
     <>
       <Header />
+      <NavMenu />
       <Routes>
+        <Route path="/" element={
+          <>
+            <HeroSection />
+            {/* <Collection titles={["Everyday Abayas", "Summer Collection", "Professional Abayas", "Occasion Abayas", "Jewelry"]} /> */}
+          </>
+        } />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/account" element={<AccountPage />} />
