@@ -2,78 +2,80 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cart.css';
 import EmptyCart from './EmptyCart';
-import { getCartItems, removeFromCart, updateCartQuantity } from './cartApi';
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchCartItems();
+        const storedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        setCartItems(storedItems);
+
+        // Listen for the custom event
+        window.addEventListener('itemAddedToCart', handleItemAdded);
+
+        return () => {
+            window.removeEventListener('itemAddedToCart', handleItemAdded);
+        };
     }, []);
 
-    const fetchCartItems = async () => {
-        try {
-            setIsLoading(true);
-            const data = await getCartItems();
-            setCartItems(data.products);
-            setIsLoading(false);
-        } catch (err) {
-            setError('Failed to fetch cart items');
-            setIsLoading(false);
-        }
+    const handleItemAdded = () => {
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
     };
 
-    const handleRemoveItem = async (productId) => {
-        try {
-            await removeFromCart(productId);
-            fetchCartItems(); // Refresh cart items
-        } catch (err) {
-            setError('Failed to remove item from cart');
-        }
+    const removeItem = (index) => {
+        const newItems = [...cartItems];
+        newItems.splice(index, 1);
+        setCartItems(newItems);
+        localStorage.setItem('cartItems', JSON.stringify(newItems));
+        window.dispatchEvent(new Event('cartUpdated'));
     };
 
-    const handleUpdateQuantity = async (productId, newQuantity) => {
-        try {
-            await updateCartQuantity(productId, newQuantity);
-            fetchCartItems(); // Refresh cart items
-        } catch (err) {
-            setError('Failed to update item quantity');
-        }
+    const updateQuantity = (index, newQuantity) => {
+        const newItems = [...cartItems];
+        newItems[index].quantity = newQuantity;
+        setCartItems(newItems);
+        localStorage.setItem('cartItems', JSON.stringify(newItems));
+        window.dispatchEvent(new Event('cartUpdated'));
     };
+
+    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
     const handleCheckout = () => {
         navigate('/checkout');
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (cartItems.length === 0) return <EmptyCart />;
-
-    const totalPrice = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    if (cartItems.length === 0) {
+        return <EmptyCart />;
+    }
 
     return (
         <div className="cart">
+            {showPopup && (
+                <div className="popup">
+                    <span className="popup-text">✨ Successfully added to cart! ✨</span>
+                </div>
+            )}
             <h2>Your cart</h2>
-            {cartItems.map((item) => (
-                <div key={item.product._id} className="cart-item">
-                    <img src={item.product.image} alt={item.product.name} />
+            {cartItems.map((item, index) => (
+                <div key={index} className="cart-item">
+                    <img src={item.image} alt={item.name} />
                     <div className="item-details">
-                        <h3>{item.product.name}</h3>
-                        <p>{item.product.price} SR</p>
+                        <h3>{item.name}</h3>
+                        <p>{item.price} SR</p>
                         <div className="quantity-controls">
-                            <button onClick={() => handleUpdateQuantity(item.product._id, Math.max(1, item.quantity - 1))}>-</button>
+                            <button onClick={() => updateQuantity(index, Math.max(1, item.quantity - 1))}>-</button>
                             <span>{item.quantity}</span>
-                            <button onClick={() => handleUpdateQuantity(item.product._id, item.quantity + 1)}>+</button>
+                            <button onClick={() => updateQuantity(index, item.quantity + 1)}>+</button>
                         </div>
                     </div>
-                    <button className="remove-item" onClick={() => handleRemoveItem(item.product._id)}>Remove</button>
+                    <button className="remove-item" onClick={() => removeItem(index)}>Remove</button>
                 </div>
             ))}
             <div className="cart-summary">
-                <p>Estimated total: {totalPrice.toFixed(2)} SR</p>
+                <p>Estimated total: {totalPrice.toFixed(2)} </p>
                 <button className="checkout-button" onClick={handleCheckout}>Check out</button>
             </div>
         </div>

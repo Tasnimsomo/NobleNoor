@@ -27,19 +27,3 @@ export const searchProducts = async (searchParams) => {
     throw error.response?.data || 'An error occurred during the search';
   }
 };
-
-// In a separate file, e.g., axiosConfig.js
-import axios from 'axios';
-
-axios.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token'); // Adjust based on how you store the token
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);

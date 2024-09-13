@@ -1,16 +1,27 @@
-// src/Collection/ProductLayout.js
 import React, { useState } from 'react';
 import './Collection.css';
 import ProductSidebar from './ProductSidebar';
+import axios from 'axios'; // Import axios
 
-function ProductLayout({ products, expanded, addToCart }) {
+function ProductLayout({ products, expanded }) {
     const [showAlert, setShowAlert] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
-    const handleAddToCart = (product) => {
-        addToCart(product);
-        setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 2500);
+    // Function to send the Add to Cart request to the backend
+    const handleAddToCart = async (product) => {
+        try {
+            const response = await axios.post('/api/cart/add', { 
+                productId: product._id, 
+                quantity: 1 // Default quantity to 1
+            });
+
+            if (response.status === 200) {
+                setShowAlert(true);
+                setTimeout(() => setShowAlert(false), 2500);
+            }
+        } catch (error) {
+            console.error('Failed to add item to cart:', error);
+        }
     };
 
     const openSidebar = (product) => {
@@ -25,7 +36,7 @@ function ProductLayout({ products, expanded, addToCart }) {
         <div className="product-layout">
             <div className="products-grid">
                 {products.map(product => (
-                    <div key={product.id} className="product-card">
+                    <div key={product._id} className="product-card">
                         <img
                             src={process.env.PUBLIC_URL + product.image}
                             alt={product.name}
@@ -52,10 +63,9 @@ function ProductLayout({ products, expanded, addToCart }) {
                 ))}
             </div>
             {selectedProduct && (
-                <ProductSidebar 
-                    product={selectedProduct} 
-                    onClose={closeSidebar} 
-                    addToCart={handleAddToCart}
+                <ProductSidebar
+                    product={selectedProduct}
+                    onClose={closeSidebar}
                 />
             )}
             {showAlert && (
