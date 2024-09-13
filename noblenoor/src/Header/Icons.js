@@ -42,12 +42,15 @@ function Icons() {
     };
 
     const goToProfile = () => {
-        if (isLoggedIn) {
+        const loggedInStatus = localStorage.getItem('isLoggedIn');
+        console.log("Login status:", loggedInStatus); // For debugging
+        if (loggedInStatus === 'true') {
             navigate('/account');
         } else {
             navigate('/login');  // Redirect to login if not logged in
         }
     };
+    
 
     const goToCart = () => {
         navigate('/cart');
