@@ -27,9 +27,9 @@ const AuthProvider = ({ children }) => {
         setUser({ role: res.role });  // Adjust to store the role
         setToken(res.token);
         localStorage.setItem("site", res.token);
-        navigate("/");
+        localStorage.setItem('isLoggedIn', 'true'); // Store login status
+        navigate("/dashboard");
       }
-      
       throw new Error(res.message);
     } catch (err) {
       console.error(err);
@@ -41,6 +41,7 @@ const AuthProvider = ({ children }) => {
     setUser(null);
     setToken("");
     localStorage.removeItem("site");
+    localStorage.setItem('isLoggedIn', 'false'); // Set logged out status
     navigate("/login");
   }, [navigate]);
 

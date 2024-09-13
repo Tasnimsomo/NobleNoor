@@ -21,7 +21,7 @@ function Icons() {
         };
         const checkLoginStatus = () => {
             const loggedIn = localStorage.getItem('isLoggedIn');
-            setIsLoggedIn(loggedIn === 'true');
+            setIsLoggedIn(loggedIn === 'true');  // Check login status from localStorage
         };
         updateCartCount();
         checkLoginStatus();
@@ -45,7 +45,7 @@ function Icons() {
         if (isLoggedIn) {
             navigate('/account');
         } else {
-            navigate('/login');
+            navigate('/login');  // Redirect to login if not logged in
         }
     };
 
@@ -76,7 +76,6 @@ function Icons() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        
                     </form>
                     <button className="close-search" onClick={toggleSearch}>
                         <FontAwesomeIcon icon={faTimes} />
