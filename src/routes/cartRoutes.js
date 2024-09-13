@@ -9,16 +9,16 @@ const auth = require('../middleware/auth');
 router.post('/add', auth, cartController.addToCart);
 
 // Route to remove from cart
-router.delete('/remove/:id', auth, cartController.removeFromCart);
+router.delete('/remove/:id', cartController.removeFromCart);
 
 
 // Route to update cart quantity
-router.post('/update', auth, cartController.updateCartQuantity);
+router.put('/update', cartController.updateCartQuantity);
 
 
 
 // route for getting cart items
-router.get('/items', auth, cartController.getCartItems);
+router.get('/items', cartController.getCartItems);
 
 
 
