@@ -3,10 +3,10 @@
 const express = require('express');
 const router = express.Router();
 const cartController = require('../controllers/cartController');
-const auth = require('../middleware/auth');
+
 
 // Route to add to cart
-router.post('/add', auth, cartController.addToCart);
+router.post('/add', cartController.addToCart);
 
 // Route to remove from cart
 router.delete('/remove/:id', cartController.removeFromCart);
