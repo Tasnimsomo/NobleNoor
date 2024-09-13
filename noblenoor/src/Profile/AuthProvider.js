@@ -1,6 +1,8 @@
 import { useContext, createContext, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = 'http://localhost:5000';
+
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -10,7 +12,7 @@ const AuthProvider = ({ children }) => {
 
   const loginAction = useCallback(async (data) => {
     try {
-      const response = await fetch("your-api-endpoint/auth/login", {
+      const response = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,13 +23,13 @@ const AuthProvider = ({ children }) => {
         throw new Error("Login failed");
       }
       const res = await response.json();
-      if (res.data) {
-        setUser(res.data.user);
+      if (res.token) {
+        setUser({ role: res.role });  // Adjust to store the role
         setToken(res.token);
         localStorage.setItem("site", res.token);
         navigate("/dashboard");
-        return;
       }
+      
       throw new Error(res.message);
     } catch (err) {
       console.error(err);
