@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
         setToken(res.token);
         localStorage.setItem("site", res.token);
         localStorage.setItem('isLoggedIn', 'true'); // Store login status
-        navigate("/dashboard");
+        navigate("/");
       }
       throw new Error(res.message);
     } catch (err) {
