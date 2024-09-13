@@ -3,11 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faShoppingBag, faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { searchProducts } from '../api';
 import './Icons.css';
 
 function Icons() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [cartCount, setCartCount] = useState(0);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,17 +19,26 @@ function Icons() {
             const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
             setCartCount(cartItems.reduce((total, item) => total + item.quantity, 0));
         };
-
-        updateCartCount(); // Initial count
+        const checkLoginStatus = () => {
+            const loggedIn = localStorage.getItem('isLoggedIn');
+            setIsLoggedIn(loggedIn === 'true');
+        };
+        updateCartCount();
+        checkLoginStatus();
         window.addEventListener('cartUpdated', updateCartCount);
-
+        window.addEventListener('loginStatusChanged', checkLoginStatus);
         return () => {
             window.removeEventListener('cartUpdated', updateCartCount);
+            window.removeEventListener('loginStatusChanged', checkLoginStatus);
         };
     }, []);
 
     const toggleSearch = () => {
         setIsSearchOpen(!isSearchOpen);
+        if (!isSearchOpen) {
+            setSearchTerm('');
+            setSearchResults([]);
+        }
     };
 
     const goToProfile = () => {
@@ -40,13 +53,33 @@ function Icons() {
         navigate('/cart');
     };
 
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const results = await searchProducts({ name: searchTerm });
+            setSearchResults(results);
+            console.log(results);
+            navigate('/search-results', { state: { results } });
+        } catch (error) {
+            console.error('Error searching products:', error);
+        }
+    };
+
     return (
         <>
             {isSearchOpen ? (
                 <div className="search-overlay">
-                    <input type="text" placeholder="Search..." />
-                    <button onClick={toggleSearch}>
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    <form onSubmit={handleSearch}>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        
+                    </form>
+                    <button className="close-search" onClick={toggleSearch}>
+                        <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </div>
             ) : (
