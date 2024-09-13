@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
-import { register } from '../api';  // Updated import path
+import { register } from '../api';  // Import the API call
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ const Signup = () => {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: ''  // Include confirmPassword as backend expects this
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,10 +24,16 @@ const Signup = () => {
     setError('');
     setIsLoading(true);
 
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await register(formData);
       console.log('Registration successful:', response);
-      navigate('/login');
+      navigate('/login');  // Redirect user to login page on success
     } catch (err) {
       setError(err.message || 'An error occurred during registration');
     } finally {
