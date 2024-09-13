@@ -1,25 +1,29 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/';
+const API_URL = 'http://localhost:5000';
 
-// Register a new user
 export const register = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/users/register`, userData);  // Ensure API path is correct
+    console.log('Sending registration data:', userData);
+    const response = await axios.post(`${API_URL}/users/register`, userData);
+    console.log('Registration response:', response.data);
     return response.data;
   } catch (error) {
-    throw error.response.data || 'An error occurred during registration';  // Handle backend errors
+    console.error('Registration error:', error.response || error);
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data);
+    } else {
+      throw new Error('An error occurred during registration. Please try again.');
+    }
   }
 };
 
-
-// Search products
 export const searchProducts = async (searchParams) => {
   try {
     const response = await axios.get(`${API_URL}/products/search`, { params: searchParams });
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    console.error('Search error:', error.response || error);
+    throw error.response?.data || 'An error occurred during the search';
   }
 };
-
