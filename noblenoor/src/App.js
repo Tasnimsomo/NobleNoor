@@ -9,36 +9,37 @@ import Checkout from './Cart/Checkout.js';
 import Login from './Profile/Login.js';
 import Signup from './Profile/Signup.js';
 import AccountPage from './Profile/AccountPage.js';
+import AuthProvider from "./Profile/AuthProvider.js";
 import AdminPage from './Admin/adminPage.js';
-import PrivateRoute from './PrivateRoute';
-import ProductDetail from './Cart/ProductDetail'
+import PrivateRoute from './PrivateRoute.js';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Admin route without header */}
-        <Route path="/adminPage" element={<AdminPage />} />
+      <AuthProvider>
+        <Routes>
+          {/* Admin route without header */}
+          <Route path="/adminPage" element={<AdminPage />} />
 
-        {/* Regular routes with header */}
-        <Route path="/" element={<Layout />}>
-          <Route index element={
-            <>
-              <HeroSection />
-              <Collection titles={["Everyday Abayas", "Summer Collection", "Professional Abayas", "Occasion Abayas", "Jewelry"]} />
-            </>
-          } />
-          <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
-          <Route path="/ProductDetail" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/account" element={<AccountPage />} />
+          {/* Regular routes with header */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={
+              <>
+                <HeroSection />
+                <Collection titles={["Everyday Abayas", "Summer Collection", "Professional Abayas", "Occasion Abayas", "Jewelry"]} />
+              </>
+            } />
+            <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/account" element={<AccountPage />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
