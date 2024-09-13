@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
         setUser({ role: res.role });  // Adjust to store the role
         setToken(res.token);
         localStorage.setItem("site", res.token);
-        navigate("/dashboard");
+        navigate("/");
       }
       
       throw new Error(res.message);
