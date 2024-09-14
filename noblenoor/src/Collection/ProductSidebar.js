@@ -1,7 +1,18 @@
-// src/Collection/ProductSidebar.js
 import React from 'react';
+import { useCart } from '../Context/CartContext';
 
-function ProductSidebar({ product, onClose, addToCart }) {
+function ProductSidebar({ product, onClose }) {
+  const { addItemToCart } = useCart();
+
+  const handleAddToCart = async () => {
+    try {
+      await addItemToCart(product._id, 1);
+      onClose();
+    } catch (error) {
+      console.error('Failed to add item to cart:', error);
+    }
+  };
+
   return (
     <div className="product-sidebar">
       <button className="close-btn" onClick={onClose}>×</button>
@@ -39,7 +50,7 @@ function ProductSidebar({ product, onClose, addToCart }) {
         </div>
       </div>
       <div className="sidebar-footer">
-        <button className="add-to-cart-button" onClick={() => addToCart(product)}>Add to Cart</button>
+        <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
       </div>
     </div>
   );

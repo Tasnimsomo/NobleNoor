@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faShoppingBag, faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { searchProducts } from '../api';
+import { searchProducts } from '../api.js';
 import './Icons.css';
 
 function Icons() {

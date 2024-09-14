@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import './Collection.css';
 import ProductSidebar from './ProductSidebar';
-import axios from 'axios'; // Import axios
+import { useCart } from '../Context/CartContext';
 
 function ProductLayout({ products, expanded }) {
     const [showAlert, setShowAlert] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const { addItemToCart } = useCart();
 
-    // Function to send the Add to Cart request to the backend
     const handleAddToCart = async (product) => {
         try {
-            const response = await axios.post('/api/cart/add', { 
-                productId: product._id, 
-                quantity: 1 // Default quantity to 1
-            });
-
-            if (response.status === 200) {
-                setShowAlert(true);
-                setTimeout(() => setShowAlert(false), 2500);
-            }
+            await addItemToCart(product._id, 1);
+            setShowAlert(true);
+            setTimeout(() => setShowAlert(false), 2500);
         } catch (error) {
             console.error('Failed to add item to cart:', error);
         }
@@ -66,6 +60,7 @@ function ProductLayout({ products, expanded }) {
                 <ProductSidebar
                     product={selectedProduct}
                     onClose={closeSidebar}
+                    addToCart={handleAddToCart}
                 />
             )}
             {showAlert && (
