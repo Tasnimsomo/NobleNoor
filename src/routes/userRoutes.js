@@ -1,8 +1,6 @@
 // import express module
 const express = require('express');
 
-// middleware function
-const auth = require('../middleware/auth');
 
 // create an instance of an express router
 const router = express.Router();
