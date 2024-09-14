@@ -12,36 +12,33 @@ import AccountPage from './Profile/AccountPage.js';
 import AuthProvider from "./Profile/AuthProvider.js";
 import AdminPage from './Admin/adminPage.js';
 import PrivateRoute from './PrivateRoute.js';
-import { CartProvider } from './Context/CartContext'; // Import CartProvider
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <CartProvider> {/* Wrap everything inside CartProvider */}
-          <Routes>
-            {/* Admin route without header */}
-            <Route path="/adminPage" element={<AdminPage />} />
+        <Routes>
+          {/* Admin route without header */}
+          <Route path="/adminPage" element={<AdminPage />} />
 
-            {/* Regular routes with header */}
-            <Route path="/" element={<Layout />}>
-              <Route index element={
-                <>
-                  <HeroSection />
-                  <Collection titles={["Everyday Abayas", "Summer Collection", "Professional Abayas", "Occasion Abayas", "Jewelry"]} />
-                </>
-              } />
-              <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route element={<PrivateRoute />}>
-                <Route path="/account" element={<AccountPage />} />
-              </Route>
+          {/* Regular routes with header */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={
+              <>
+                <HeroSection />
+                <Collection titles={["Everyday Abayas", "Summer Collection", "Professional Abayas", "Occasion Abayas", "Jewelry"]} />
+              </>
+            } />
+            <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/account" element={<AccountPage />} />
             </Route>
-          </Routes>
-        </CartProvider>
+          </Route>
+        </Routes>
       </AuthProvider>
     </Router>
   );

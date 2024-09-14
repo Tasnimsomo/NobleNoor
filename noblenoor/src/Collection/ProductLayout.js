@@ -1,20 +1,31 @@
+// ProductLayout.js
 import React, { useState } from 'react';
 import './Collection.css';
 import ProductSidebar from './ProductSidebar';
-import { useCart } from '../Context/CartContext';
 
 function ProductLayout({ products, expanded }) {
     const [showAlert, setShowAlert] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const { addItemToCart } = useCart();
 
-    const handleAddToCart = async (product) => {
+    const addToCart = async (product) => {
         try {
-            await addItemToCart(product._id, 1);
+            const existingCart = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const existingItemIndex = existingCart.findIndex(item => item.id === product.id);
+    
+            if (existingItemIndex > -1) {
+                existingCart[existingItemIndex].quantity += 1;
+            } else {
+                // Convert price string to number
+                const price = parseFloat(product.price.replace('$', '').replace(' USD', ''));
+                existingCart.push({ ...product, price: price, quantity: 1 });
+            }
+    
+            localStorage.setItem('cartItems', JSON.stringify(existingCart));
+            window.dispatchEvent(new Event('cartUpdated'));
             setShowAlert(true);
             setTimeout(() => setShowAlert(false), 2500);
         } catch (error) {
-            console.error('Failed to add item to cart:', error);
+            console.error('Error adding item to cart:', error);
         }
     };
 
@@ -30,7 +41,7 @@ function ProductLayout({ products, expanded }) {
         <div className="product-layout">
             <div className="products-grid">
                 {products.map(product => (
-                    <div key={product._id} className="product-card">
+                    <div key={product.id} className="product-card">
                         <img
                             src={process.env.PUBLIC_URL + product.image}
                             alt={product.name}
@@ -45,10 +56,10 @@ function ProductLayout({ products, expanded }) {
                                     <span>{product.reviews} review{product.reviews > 1 ? "s" : ""}</span>
                                 </div>
                             )}
-                            <p className="product-price">{product.price}</p>
+                            <p className="product-price">{product.price} SR</p>
                             <button
                                 className="add-to-cart-button"
-                                onClick={() => handleAddToCart(product)}
+                                onClick={() => addToCart(product)}
                             >
                                 Add to Cart
                             </button>
@@ -60,7 +71,7 @@ function ProductLayout({ products, expanded }) {
                 <ProductSidebar
                     product={selectedProduct}
                     onClose={closeSidebar}
-                    addToCart={handleAddToCart}
+                    addToCart={addToCart}
                 />
             )}
             {showAlert && (

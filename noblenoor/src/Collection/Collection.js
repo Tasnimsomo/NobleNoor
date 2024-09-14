@@ -294,22 +294,24 @@ function Collection({ titles, isFullView = false }) {
         ? collections.filter(c => c.title.toLowerCase().replace(/\s+/g, '-') === collectionName)
         : (titles ? collections.filter(c => titles.includes(c.title)) : collections);
 
-    const addToCart = (product) => {
-        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        const existingItemIndex = existingCartItems.findIndex(item => item.id === product.id);
-
-        if (existingItemIndex !== -1) {
-            existingCartItems[existingItemIndex].quantity += 1;
-        } else {
-            existingCartItems.push({...product, quantity: 1});
-        }
-
-        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
-
-        window.dispatchEvent(new Event('cartUpdated'));
-        window.dispatchEvent(new Event('itemAddedToCart'));
-    };
-
+        const addToCart = (product) => {
+          const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+          const existingItemIndex = existingCartItems.findIndex(item => item.id === product.id);
+      
+          if (existingItemIndex !== -1) {
+              existingCartItems[existingItemIndex].quantity += 1;
+          } else {
+              // Convert price string to number
+              const price = parseFloat(product.price.replace('$', '').replace(' USD', ''));
+              existingCartItems.push({...product, price: price, quantity: 1});
+          }
+      
+          localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+      
+          window.dispatchEvent(new Event('cartUpdated'));
+          window.dispatchEvent(new Event('itemAddedToCart'));
+      };
+      
     return (
         <div className="collections-container">
           {currentCollections.map(collection => (
