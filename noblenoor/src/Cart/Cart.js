@@ -109,7 +109,7 @@ function Cart() {
                         </div>
                         <p>Item Total: ${calculateItemTotal(item).toFixed(2)} USD</p>
                     </div>
-                    <button className="remove-item" onClick={() => removeItem(item.id)}>Remove</button>
+                    <button className="remove-item" onClick={() => removeItem(item.id)}>🗑️</button>
                 </div>
             ))}
             <div className="cart-summary">
