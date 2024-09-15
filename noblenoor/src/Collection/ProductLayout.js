@@ -1,4 +1,3 @@
-// ProductLayout.js
 import React, { useState } from 'react';
 import './Collection.css';
 import ProductSidebar from './ProductSidebar';
@@ -15,9 +14,8 @@ function ProductLayout({ products, expanded }) {
             if (existingItemIndex > -1) {
                 existingCart[existingItemIndex].quantity += 1;
             } else {
-                // Convert price string to number
-                const price = parseFloat(product.price.replace('$', '').replace(' USD', ''));
-                existingCart.push({ ...product, price: price, quantity: 1 });
+                // Assume product.price is already a number
+                existingCart.push({ ...product, quantity: 1 });
             }
     
             localStorage.setItem('cartItems', JSON.stringify(existingCart));
@@ -56,7 +54,7 @@ function ProductLayout({ products, expanded }) {
                                     <span>{product.reviews} review{product.reviews > 1 ? "s" : ""}</span>
                                 </div>
                             )}
-                            <p className="product-price">{product.price} SR</p>
+                            <p className="product-price">{product.price} SR</p> {/* Assuming price is a number */}
                             <button
                                 className="add-to-cart-button"
                                 onClick={() => addToCart(product)}

@@ -11,72 +11,62 @@ function Cart() {
 
     async function fetchCart() {
         try {
-            const res = await fetch("http://localhost:4000/cart");
+            const res = await fetch("http://localhost:5000/cart/items");
             const data = await res.json();
-            console.log(data.data.items);
-            setCartItems(data.data.items);
-            setPayload(data.data);
+            console.log("Fetched cart data:", data); // Log the data to verify structure
+            setCartItems(data.products || []); // Set cart items
+            setPayload(data); // Set payload
         } catch (error) {
             setError(true);
             console.error('Error fetching cart:', error);
         }
     }
 
-    async function increaseQty(id) {
+    async function changeQty(id, delta) {
+        const item = cartItems.find(item => item.product._id === id);
+        const newQuantity = item.quantity + delta;
+
+        if (newQuantity <= 0) {
+            return removeItem(id); // Remove item if quantity becomes 0 or negative
+        }
+
         try {
-            const res = await fetch("http://localhost:4000/cart", {
+            const res = await fetch("http://localhost:5000/cart/update", {
                 method: "POST",
                 body: JSON.stringify({
                     productId: id,
-                    quantity: 1,
+                    quantity: newQuantity,
                 }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
                 },
             });
-            console.log(res);
-            fetchCart();
-            alert("Item incremented");
+            fetchCart(); // Fetch updated cart
         } catch (err) {
-            console.error('Error increasing quantity:', err);
+            console.error('Error updating quantity:', err);
         }
     }
 
-    async function decreaseQty(id) {
+    async function removeItem(id) {
         try {
-            const res = await fetch("http://localhost:4000/cart", {
-                method: "POST",
-                body: JSON.stringify({
-                    productId: id,
-                    quantity: -1,
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            });
-            console.log(res);
-            fetchCart();
-            alert("Item decremented");
-        } catch (err) {
-            console.error('Error decreasing quantity:', err);
-        }
-    }
-
-    async function emptyCart() {
-        try {
-            const res = await fetch("http://localhost:4000/cart/empty-cart", {
+            const res = await fetch(`http://localhost:5000/cart/remove/${id}`, {
                 method: "DELETE",
             });
-            await res.json();
-            fetchCart();
-            navigate("/");
+            fetchCart(); // Fetch updated cart after removing the item
         } catch (err) {
-            console.error('Error emptying cart:', err);
+            console.error('Error removing item:', err);
         }
     }
 
     useEffect(() => {
         fetchCart();
+        const handleCartUpdated = () => {
+            fetchCart();
+        };
+        window.addEventListener('cartUpdated', handleCartUpdated);
+        return () => {
+            window.removeEventListener('cartUpdated', handleCartUpdated);
+        };
     }, []);
 
     if (cartItems.length === 0 && !hasError) {
@@ -98,22 +88,22 @@ function Cart() {
                     </thead>
                     <tbody>
                         {cartItems.map((item) => (
-                            <tr key={item.productId._id}>
-                                <td>{item.productId.name}</td>
-                                <td>${item.productId.price.toFixed(2)}</td>
+                            <tr key={item.product._id}>
+                                <td>{item.product.name}</td>
+                                <td>${item.product.price.toFixed(2)}</td>
                                 <td>
-                                    <button onClick={() => decreaseQty(item.productId._id)} className="quantity-btn">-</button>
+                                    <button onClick={() => changeQty(item.product._id, -1)} className="quantity-btn">-</button>
                                     <span className="quantity">{item.quantity}</span>
-                                    <button onClick={() => increaseQty(item.productId._id)} className="quantity-btn">+</button>
+                                    <button onClick={() => changeQty(item.product._id, 1)} className="quantity-btn">+</button>
                                 </td>
-                                <td>${item.total.toFixed(2)}</td>
+                                <td>${(item.product.price * item.quantity).toFixed(2)}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
             <div className="cart-summary">
-                <p>Subtotal: ${payload.subTotal ? payload.subTotal.toFixed(2) : '0.00'}</p>
+                <p>Subtotal: ${payload.totalAmount ? payload.totalAmount.toFixed(2) : '0.00'}</p>
                 <button className="empty-cart-btn" onClick={emptyCart}>Empty Cart</button>
                 <button className="checkout-btn" onClick={() => navigate('/checkout')}>Proceed to Checkout</button>
             </div>
