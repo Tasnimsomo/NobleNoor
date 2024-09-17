@@ -5,7 +5,7 @@ import NavMenu from './Menu/NavMenu.js';
 import HeroSection from './Hero/HeroSection';
 import Collection from './Collection/Collection.js';
 import Cart from './Cart/Cart.js';
-import Checkout from './Cart/Checkout.js';
+import Checkout from './Checkout/Checkout.js';
 import Login from './Profile/Login.js';
 import Signup from './Profile/Signup.js';
 import AccountPage from './Profile/AccountPage.js';
