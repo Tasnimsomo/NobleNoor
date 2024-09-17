@@ -15,7 +15,7 @@ const sendOrderConfirmationEmail = async (to, mpesaCode) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: to,
-    subject: 'Order Confirmation',
+    subject: 'Order Confirmation Message',
     text: `Thank you for your order! Your M-PESA confirmation code is: ${mpesaCode}`,
   };
 
