@@ -1,30 +1,16 @@
+// src/Collection/ProductLayout.js
 import React, { useState } from 'react';
 import './Collection.css';
 import ProductSidebar from './ProductSidebar';
 
-function ProductLayout({ products, expanded }) {
+function ProductLayout({ products, expanded, addToCart }) {
     const [showAlert, setShowAlert] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
-    const addToCart = async (product) => {
-        try {
-            const existingCart = JSON.parse(localStorage.getItem('cartItems')) || [];
-            const existingItemIndex = existingCart.findIndex(item => item.id === product.id);
-    
-            if (existingItemIndex > -1) {
-                existingCart[existingItemIndex].quantity += 1;
-            } else {
-                // Assume product.price is already a number
-                existingCart.push({ ...product, quantity: 1 });
-            }
-    
-            localStorage.setItem('cartItems', JSON.stringify(existingCart));
-            window.dispatchEvent(new Event('cartUpdated'));
-            setShowAlert(true);
-            setTimeout(() => setShowAlert(false), 2500);
-        } catch (error) {
-            console.error('Error adding item to cart:', error);
-        }
+    const handleAddToCart = (product) => {
+        addToCart(product);
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 2500);
     };
 
     const openSidebar = (product) => {
@@ -54,10 +40,10 @@ function ProductLayout({ products, expanded }) {
                                     <span>{product.reviews} review{product.reviews > 1 ? "s" : ""}</span>
                                 </div>
                             )}
-                            <p className="product-price">{product.price} SR</p> {/* Assuming price is a number */}
+                            <p className="product-price">{product.price}</p>
                             <button
                                 className="add-to-cart-button"
-                                onClick={() => addToCart(product)}
+                                onClick={() => handleAddToCart(product)}
                             >
                                 Add to Cart
                             </button>
@@ -66,10 +52,10 @@ function ProductLayout({ products, expanded }) {
                 ))}
             </div>
             {selectedProduct && (
-                <ProductSidebar
-                    product={selectedProduct}
-                    onClose={closeSidebar}
-                    addToCart={addToCart}
+                <ProductSidebar 
+                    product={selectedProduct} 
+                    onClose={closeSidebar} 
+                    addToCart={handleAddToCart}
                 />
             )}
             {showAlert && (

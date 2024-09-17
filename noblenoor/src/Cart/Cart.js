@@ -1,3 +1,4 @@
+// Cart.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cart.css';
@@ -5,107 +6,115 @@ import EmptyCart from './EmptyCart';
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
-    const [payload, setPayload] = useState({});
-    const [hasError, setError] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
 
-    async function fetchCart() {
-        try {
-            const res = await fetch("http://localhost:5000/cart/items");
-            const data = await res.json();
-            console.log("Fetched cart data:", data); // Log the data to verify structure
-            setCartItems(data.products || []); // Set cart items
-            setPayload(data); // Set payload
-        } catch (error) {
-            setError(true);
-            console.error('Error fetching cart:', error);
-        }
-    }
-
-    async function changeQty(id, delta) {
-        const item = cartItems.find(item => item.product._id === id);
-        const newQuantity = item.quantity + delta;
-
-        if (newQuantity <= 0) {
-            return removeItem(id); // Remove item if quantity becomes 0 or negative
-        }
-
-        try {
-            const res = await fetch("http://localhost:5000/cart/update", {
-                method: "POST",
-                body: JSON.stringify({
-                    productId: id,
-                    quantity: newQuantity,
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            });
-            fetchCart(); // Fetch updated cart
-        } catch (err) {
-            console.error('Error updating quantity:', err);
-        }
-    }
-
-    async function removeItem(id) {
-        try {
-            const res = await fetch(`http://localhost:5000/cart/remove/${id}`, {
-                method: "DELETE",
-            });
-            fetchCart(); // Fetch updated cart after removing the item
-        } catch (err) {
-            console.error('Error removing item:', err);
-        }
-    }
-
     useEffect(() => {
-        fetchCart();
-        const handleCartUpdated = () => {
-            fetchCart();
+        const fetchCartItems = async () => {
+            try {
+                const storedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                // Ensure each item has a price
+                const itemsWithPrices = storedItems.map(item => ({
+                    ...item,
+                    price: item.price || 0 // Default to 0 if price is missing
+                }));
+                setCartItems(itemsWithPrices);
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
         };
-        window.addEventListener('cartUpdated', handleCartUpdated);
+
+        fetchCartItems();
+        window.addEventListener('itemAddedToCart', handleItemAdded);
+
         return () => {
-            window.removeEventListener('cartUpdated', handleCartUpdated);
+            window.removeEventListener('itemAddedToCart', handleItemAdded);
         };
     }, []);
 
-    if (cartItems.length === 0 && !hasError) {
+    const handleItemAdded = () => {
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000);
+    };
+
+    const removeItem = async (productId) => {
+        try {
+            const updatedItems = cartItems.filter(item => item.id !== productId);
+            setCartItems(updatedItems);
+            localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+            window.dispatchEvent(new Event('cartUpdated'));
+        } catch (error) {
+            console.error('Error removing item from cart:', error);
+        }
+    };
+
+    const updateQuantity = async (productId, newQuantity) => {
+        try {
+            if (newQuantity <= 0) {
+                throw new Error('Quantity must be a positive number');
+            }
+
+            const updatedItems = cartItems.map(item => {
+                if (item.id === productId) {
+                    return { ...item, quantity: newQuantity };
+                }
+                return item;
+            });
+
+            setCartItems(updatedItems);
+            localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+            window.dispatchEvent(new Event('cartUpdated'));
+        } catch (error) {
+            console.error('Error updating cart quantity:', error);
+        }
+    };
+
+    const getItemPrice = (item) => {
+      return typeof item.price === 'number' ? item.price : 
+             typeof item.price === 'string' ? parseFloat(item.price.replace('$', '').replace(' USD', '')) : 0;
+  };
+
+    const calculateItemTotal = (item) => {
+        return getItemPrice(item) * item.quantity;
+    };
+
+    const totalPrice = cartItems.reduce((total, item) => total + calculateItemTotal(item), 0);
+
+    const handleCheckout = () => {
+        navigate('/checkout');
+    };
+
+    if (cartItems.length === 0) {
         return <EmptyCart />;
     }
 
     return (
         <div className="cart">
-            <h2>Your Cart</h2>
-            <div className="cart-items">
-                <table className="cart-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cartItems.map((item) => (
-                            <tr key={item.product._id}>
-                                <td>{item.product.name}</td>
-                                <td>${item.product.price.toFixed(2)}</td>
-                                <td>
-                                    <button onClick={() => changeQty(item.product._id, -1)} className="quantity-btn">-</button>
-                                    <span className="quantity">{item.quantity}</span>
-                                    <button onClick={() => changeQty(item.product._id, 1)} className="quantity-btn">+</button>
-                                </td>
-                                <td>${(item.product.price * item.quantity).toFixed(2)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {showPopup && (
+                <div className="popup">
+                    <span className="popup-text">✨ Successfully added to cart! ✨</span>
+                </div>
+            )}
+            <h2>Your cart</h2>
+            {cartItems.map((item) => (
+                <div key={item.id} className="cart-item">
+                    <img src={item.image} alt={item.name} />
+                    <div className="item-details">
+                        <h3>{item.name}</h3>
+                        <p>${getItemPrice(item).toFixed(2)} USD</p>
+                        <div className="quantity-controls">
+                            <button onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}>-</button>
+                            <span>{item.quantity}</span>
+                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                        </div>
+                        <p>Item Total: ${calculateItemTotal(item).toFixed(2)} USD</p>
+                    </div>
+                    <button className="remove-item" onClick={() => removeItem(item.id)}>🗑️</button>
+                </div>
+            ))}
             <div className="cart-summary">
-                <p>Subtotal: ${payload.totalAmount ? payload.totalAmount.toFixed(2) : '0.00'}</p>
-                <button className="empty-cart-btn" onClick={emptyCart}>Empty Cart</button>
-                <button className="checkout-btn" onClick={() => navigate('/checkout')}>Proceed to Checkout</button>
+                <p>Estimated total: ${totalPrice.toFixed(2)} USD</p>
+                <button className="checkout-button" onClick={handleCheckout}>Check out</button>
             </div>
         </div>
     );
