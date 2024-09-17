@@ -1,0 +1,46 @@
+.checkout-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .checkout-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .billing-details, .payment-instructions {
+    width: 45%;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  ol {
+    padding-left: 20px;
+  }
+  
+  .complete-order-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: 20px;
+  }
+  
+  .complete-order-btn:hover {
+    background-color: #45a049;
+  }
