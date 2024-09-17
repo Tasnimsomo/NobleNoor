@@ -1,44 +1,54 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
-const routes = require('./routes'); // Import the central routes file
+const routes = require('./routes');
 const cors = require('cors');
 const path = require('path');
-const session = require('express-session'); // Import express-session
+const session = require('express-session');
+const { sendOrderConfirmationEmail } = require('./services/emailService');
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
 
-// Middleware to parse incoming JSON data
 app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
 connectDB();
 
-// Session middleware configuration
 app.use(
     session({
-        secret: process.env.SESSION_SECRET || 'your_secret_key', // Use a secure secret in production
-        resave: false, // Don't resave session if unmodified
-        saveUninitialized: false, // Don't create session until something is stored
-        cookie: { secure: false }, // Set to true if using HTTPS
+        secret: process.env.SESSION_SECRET
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false },
     })
 );
 
-// Use the routes without /api prefix
 app.use(routes);
 
-// Error handling middleware
+// New route for completing orders
+app.post('/orders/complete-order', async (req, res) => {
+    const { billingDetails, mpesaCode } = req.body;
+
+
+    // Send confirmation email
+    const emailResult = await sendOrderConfirmationEmail(billingDetails.email, mpesaCode);
+
+    if (emailResult.success) {
+        res.json({ success: true, message: 'Order completed and email sent' });
+    } else {
+        res.status(500).json({ success: false, error: emailResult.error });
+    }
+});
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
