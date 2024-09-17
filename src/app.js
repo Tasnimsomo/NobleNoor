@@ -4,8 +4,7 @@ const connectDB = require('./config/database');
 const routes = require('./routes');
 const cors = require('cors');
 const path = require('path');
-const session = require('express-session');
-const { sendOrderConfirmationEmail } = require('./services/emailService');
+const { sendOrderConfirmationEmail } = require('./services/orderConfirmation');
 
 dotenv.config();
 
@@ -18,14 +17,6 @@ const PORT = process.env.PORT || 5000;
 
 connectDB();
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET
-        resave: false,
-        saveUninitialized: false,
-        cookie: { secure: false },
-    })
-);
 
 app.use(routes);
 

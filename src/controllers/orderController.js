@@ -1,5 +1,5 @@
-const Order = require('../models/Order');
-const { sendOrderConfirmationEmail } = require('../services/emailService');
+const Order = require('../models/order');
+const { sendOrderConfirmationEmail } = require('../services/orderConfirmation');
 
 exports.completeOrder = async (req, res) => {
     try {
