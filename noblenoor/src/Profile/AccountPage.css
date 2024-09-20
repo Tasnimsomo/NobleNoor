@@ -15,8 +15,8 @@ h1 {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 10px 20px;
-  background-color: #f44336;
+  padding: 30px 40px;
+  background-color: #49bf6c;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -24,5 +24,5 @@ h1 {
 }
 
 .log-out:hover {
-  background-color: #d32f2f;
+  background-color: #49bf6c;
 }
