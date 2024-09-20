@@ -7,7 +7,7 @@
 
 .cart-item {
   display: flex;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ffffff;
   padding: 20px 0;
 }
 
@@ -20,6 +20,8 @@
 
 .item-details {
   flex-grow: 1;
+  font-size: 20px;
+
 }
 
 .quantity-controls {
@@ -29,9 +31,10 @@
 
 .quantity-controls button {
   background: none;
-  border: 1px solid #ddd;
+  border: 1px solid #ffffff;
   padding: 5px 10px;
   cursor: pointer;
+  font-size: 20px;
 }
 
 .quantity-controls span {
@@ -41,24 +44,32 @@
 .remove-item {
   background: none;
   border: none;
-  color: #999;
+  color: red;
   cursor: pointer;
+  font-size: 20px;
 }
 
 .cart-summary {
   margin-top: 20px;
   text-align: right;
+  font-size: 20px;
 }
 
 .checkout-button {
   background: #000;
   color: #fff;
-  padding: 10px 20px;
+  padding: 20px 30px;
   border: none;
   cursor: pointer;
+  font-size: 20px;
 }
 
-/* Existing styles... */
+.cart h2 {
+  font-weight: bolder;
+  font-size: 40px;
+  border-bottom: 2px solid #0000ff;
+  padding-bottom: 10px;
+}
 
 .alert-message {
   position: fixed;

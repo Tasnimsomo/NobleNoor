@@ -21,7 +21,7 @@
 .nav-menu a {
   text-decoration: none;
   color: #333;
-  font-size: 20px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -52,6 +52,25 @@
 
 .mobile-currency-selector {
   display: none;
+}
+
+/*media query for smaller screens (e.g., phones) */
+@media screen and (max-width: 480px) {
+  .nav-menu {
+    flex-direction: column;
+  }
+
+  .nav-menu ul {
+    flex-direction: column;
+  }
+
+  .nav-menu a {
+    font-size: 18px;
+  }
+
+  .mobile-currency-selector {
+    bottom: 20px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -102,7 +121,7 @@
   }
 
   .nav-menu a {
-    font-size: 24px;
+    font-size: 18px;
     color: #333;
   }
 
@@ -112,5 +131,43 @@
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+/*media query for larger screens (e.g., desktops) */
+@media screen and (min-width: 769px) {
+  .nav-menu {
+    flex-direction: row;
+  }
+
+  .nav-menu ul {
+    flex-direction: row;
+  }
+
+  .nav-menu a {
+    font-size: 20px;
+  }
+
+  .mobile-currency-selector {
+    display: none;
+  }
+}
+
+/*media query for larger screens (e.g., desktops) */
+@media screen and (min-width: 1728px) {
+  .nav-menu {
+    flex-direction: row;
+  }
+
+  .nav-menu ul {
+    flex-direction: row;
+  }
+
+  .nav-menu a {
+    font-size: 36px;
+  }
+
+  .mobile-currency-selector {
+    display: none;
   }
 }

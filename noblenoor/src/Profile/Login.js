@@ -1,101 +1,78 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState } from "react";
+import { useAuth } from "./AuthProvider";
+import { useNavigate } from "react-router-dom";
 import './Login.css';
 
-const API_URL = 'http://localhost:5000';
-
-const login = async (credentials) => {
-  try {
-    const response = await axios.post(`${API_URL}/users/login`, credentials);
-    return response.data; // Return the entire response data
-  } catch (error) {
-    throw error.response.data;
-  }
-};
-
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  const auth = useAuth();
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        setIsLoading(true);
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setInput(prev => ({ ...prev, [name]: value }));
+  };
 
-        try {
-            const data = await login(formData);
-            console.log('Login response:', data); // Add this line for debugging
-            localStorage.setItem('jwtToken', data.token);
-            localStorage.setItem('isLoggedIn', 'true');
-            window.dispatchEvent(new Event('loginStatusChanged'));
+  const handleSubmitEvent = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (input.email !== "" && input.password !== "") {
+      try {
+        await auth.loginAction(input);
+        navigate("/"); // or wherever you want to redirect after login
+      } catch (err) {
+        setError("Login failed. Please check your credentials.");
+      }
+    } else {
+      setError("Please provide both email and password.");
+    }
+  };
 
-            // Redirect based on role
-            if (data.role === 'admin') {
-                navigate('/adminPage');
-            } else {
-                navigate('/account');
-            }
-        } catch (error) {
-            console.error('Login error:', error); // Add this line for debugging
-            setError(error.message || 'Password or email is incorrect');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    return (
-        <div className="login-form-container">
-            <div className="form-container">
-                <h2>Get Started Now</h2>
-                <p>Enter your credentials to access your account</p>
-
-                {error && <p className="error-message">{error}</p>}
-
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Your email"
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Your password"
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div className="forgot-password">
-                        <Link to="/forgot-password">Forgot password?</Link>
-                    </div>
-
-                    <button type="submit" className="submit-btn" disabled={isLoading}>
-                        {isLoading ? 'Logging in... logging in...' : 'Login'}
-                    </button>
-
-                    <p className="login-redirect">
-                        Create new account <Link to="/signup">Signup</Link>
-                    </p>
-                </form>
-            </div>
+  return (
+    <div className="login-form-container">
+      <div className="form-container">
+        <h2>Login</h2>
+        <p>Welcome back! Please login to your account.</p>
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleSubmitEvent}>
+          <div className="input-group">
+            <input
+              type="email"
+              id="user-email"
+              name="email"
+              placeholder="Email"
+              aria-describedby="user-email"
+              aria-invalid="false"
+              onChange={handleInput}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              aria-describedby="user-password"
+              aria-invalid="false"
+              onChange={handleInput}
+            />
+          </div>
+          <div className="forgot-password">
+            <a href="#">Forgot password?</a>
+          </div>
+          <button className="submit-btn" type="submit">Login</button>
+        </form>
+        <div className="login-redirect">
+          Don't have an account? <a href="/Signup">Sign up</a>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Login;

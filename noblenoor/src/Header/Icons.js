@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faShoppingBag, faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { searchProducts } from '../api';
+import { searchProducts } from '../api.js';
 import './Icons.css';
 
 function Icons() {
@@ -21,7 +21,7 @@ function Icons() {
         };
         const checkLoginStatus = () => {
             const loggedIn = localStorage.getItem('isLoggedIn');
-            setIsLoggedIn(loggedIn === 'true');
+            setIsLoggedIn(loggedIn === 'true');  // Check login status from localStorage
         };
         updateCartCount();
         checkLoginStatus();
@@ -42,10 +42,12 @@ function Icons() {
     };
 
     const goToProfile = () => {
-        if (isLoggedIn) {
+        const loggedInStatus = localStorage.getItem('isLoggedIn');
+        console.log("Login status:", loggedInStatus); // For debugging
+        if (loggedInStatus === 'true') {
             navigate('/account');
         } else {
-            navigate('/login');
+            navigate('/login');  // Redirect to login if not logged in
         }
     };
 
@@ -76,7 +78,6 @@ function Icons() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        
                     </form>
                     <button className="close-search" onClick={toggleSearch}>
                         <FontAwesomeIcon icon={faTimes} />
