@@ -15,14 +15,15 @@ h1 {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 30px 40px;
-  background-color: #49bf6c;
+  padding: 10px 20px;
+  background-color: #f44336;
   color: white;
   text-decoration: none;
   border-radius: 5px;
   font-weight: bold;
+  margin-top: 30px;
 }
 
 .log-out:hover {
-  background-color: #49bf6c;
+  background-color: #63ec8c;
 }
