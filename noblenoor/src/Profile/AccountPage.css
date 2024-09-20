@@ -1,39 +1,28 @@
 .account-page {
-  font-family: Arial, sans-serif;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  position: relative;
 }
 
 h1 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  text-align: center;
+  color: #333;
 }
 
 .log-out {
-  color: #007bff;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
   text-decoration: none;
-  font-size: 14px;
-}
-
-.account-content {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
-}
-
-.order-history, .account-details {
-  width: 48%;
-}
-
-h2 {
-  font-size: 18px;
+  border-radius: 5px;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
-p {
-  font-size: 14px;
-  color: #555;
+.log-out:hover {
+  background-color: #d32f2f;
 }
