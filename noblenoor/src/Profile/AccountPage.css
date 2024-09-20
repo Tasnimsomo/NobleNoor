@@ -1,75 +1,77 @@
-body {
+/* account.css */
+* {
+  box-sizing: baccount-box;
   margin: 0;
   padding: 0;
+}
+
+body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  background-color: #f7f7f7;
+  background-color: #f4f4f9;
+}
+
+.account-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
 }
 
-.account-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.account-card {
-  background-color: #ffffff;
-  padding: 40px;
+.account-box {
+  text-align: center;
+  padding: 100px;
+  background-color: white;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
+  max-width: 600px;
+  margin: auto;
 }
 
-h1 {
-  font-size: 28px;
-  font-weight: 400;
-  margin-bottom: 30px;
+.account-title {
+  font-size: 2.5rem;
   color: #333;
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 
-.account-info {
-  font-size: 18px;
-  margin-bottom: 15px;
+.account-message {
+  font-size: 1.5rem;
   color: #666;
-  font-weight: 300;
+  margin-bottom: 20px;
 }
 
-button {
-  background-color: #3a3a3a;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-  transition: all 0.3s ease;
+.account-email {
+  font-size: 1.2rem;
+  color: #999;
+  margin-top: 20px;
+  padding: 10px;
+  border-top: 1px solid #eaeaea;
 }
 
-button .icon {
-  margin-right: 8px;
-  font-size: 18px;
+.account-box h3 {
+  font-weight: 400;
 }
 
-button:hover {
-  background-color: #555;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.account-box h1,
+.account-box h2 {
+  font-weight: 600;
 }
 
-.logout-button {
-  background-color: #e74c3c;
-}
+@media (max-width: 768px) {
+  .account-box {
+    padding: 20px;
+  }
 
-.logout-button:hover {
-  background-color: #c0392b;
+  .account-title {
+    font-size: 2rem;
+  }
+
+  .account-message {
+    font-size: 1.2rem;
+  }
+
+  .account-email {
+    font-size: 1rem;
+  }
 }

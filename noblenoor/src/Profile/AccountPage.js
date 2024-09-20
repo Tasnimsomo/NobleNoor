@@ -1,22 +1,20 @@
 import React from "react";
-import { useAuth } from "./AuthProvider";
-import { FaSignOutAlt } from "react-icons/fa";
+import { useLocation } from 'react-router-dom';
+import './AccountPage.css';
 
-const AccountPage = () => {
-  const auth = useAuth();
+const accountPage = () => {
+  const location = useLocation();
+  const { name, email } = location.state || {};
 
   return (
-    <div className="account-page">
-      <div className="account-card">
-        <h1>Welcome to Your Account Page</h1>
-        <p className="account-info">Name: {auth.user?.username}</p>
-        <p className="account-info">Email: {auth.user?.email}</p>
-        <button onClick={() => auth.logOut()} className="logout-button">
-          <FaSignOutAlt className="icon" /> Logout
-        </button>
+    <div className="account-container">
+      <div className="account-box">
+        <h1 className="account-title">Account's Page</h1>
+        <h2 className="account-message"> {name || 'Valued Customer'}!</h2>
+        <h3 className="account-email"> {email || 'your email address'}.</h3>
       </div>
     </div>
   );
 };
 
-export default AccountPage;
+export default accountPage;
