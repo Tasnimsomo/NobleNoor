@@ -38,17 +38,25 @@ const Checkout = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const clearCart = () => {
+    localStorage.removeItem('cartItems');
+    window.dispatchEvent(new Event('cartUpdated'));
+  };
+
   const handleCompleteOrder = (e) => {
     e.preventDefault();
     if (validateForm()) {
+      // Clear the cart
+      clearCart();
+
       // Simulate order processing
       setTimeout(() => {
         // Redirect to order confirmation page
-        navigate('/order', { 
-          state: { 
+        navigate('/order', {
+          state: {
             name: `${billingDetails.firstName} ${billingDetails.lastName}`,
             email: billingDetails.email
-          } 
+          }
         });
       }, 1500); // Simulate a short delay
     }

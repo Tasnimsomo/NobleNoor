@@ -50,7 +50,6 @@ function Icons() {
             navigate('/login');  // Redirect to login if not logged in
         }
     };
-    
 
     const goToCart = () => {
         navigate('/cart');
