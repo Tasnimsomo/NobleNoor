@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { scroller } from 'react-scroll';
 import './NavMenu.css';
-import CurrencySelector from '../Header/CurrencySelector';
 
 const NavMenu = () => {
   const location = useLocation();
@@ -40,9 +39,6 @@ const NavMenu = () => {
           <li><a onClick={() => handleClick('occasion-abayas')}>Occasion Abayas</a></li>
           <li><a onClick={() => handleClick('jewelry')}>Jewelry</a></li>
         </ul>
-        <div className="mobile-currency-selector">
-          <CurrencySelector />
-        </div>
       </nav>
     </>
   );

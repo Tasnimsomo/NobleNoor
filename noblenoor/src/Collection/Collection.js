@@ -17,7 +17,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 1,
                     name: "Peach Abaya",
-                    price: "$65.00 USD",
+                    price: "KSh 1,600",
                     image: `${process.env.PUBLIC_URL}/abayas/peach abaya.jpeg`,
                     reviews: 4,
                     rating: 5
@@ -25,7 +25,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 2,
                     name: "Macha Green abaya",
-                    price: "$70.00 USD",
+                    price: "KSh 1,200",
                     image: "/abayas/macha green abaya.jpeg",
                     reviews: 3,
                     rating: 4
@@ -33,7 +33,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 3,
                     name: "Brown & black abaya",
-                    price: "$75.00 USD",
+                    price: "KSh 1,700",
                     image: "/abayas/brown black abaya.jpeg",
                     reviews: 2,
                     rating: 5
@@ -41,7 +41,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 4,
                     name: "Floral black abaya",
-                    price: "$80.00 USD",
+                    price: "KSh 4,800",
                     image: "/abayas/floral black abaya.jpeg",
                     reviews: 5,
                     rating: 4
@@ -49,9 +49,17 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 5,
                     name: "black stars abaya",
-                    price: "$85.00 USD",
+                    price: "KSh 1,800",
                     image: "/abayas/stars black and white abaya.jpeg",
                     reviews: 3,
+                    rating: 5
+                },
+                {
+                    id: 5,
+                    name: "Cream",
+                    price: "KSh 1,800",
+                    image: "/abayas/everyday abayas (1).jpeg",
+                    reviews: 4,
                     rating: 5
                 }
             ]
@@ -62,7 +70,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 6,
                     name: "Beige Abaya",
-                    price: "$50.00 USD",
+                    price: "KSh 2,500",
                     image: "/abayas/beige abaya.jpeg",
                     reviews: 1,
                     rating: 5
@@ -70,7 +78,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 7,
                     name: "Cornflower Abaya",
-                    price: "$75.00 USD",
+                    price: "KSh 1,300",
                     image: "/abayas/cornFlower blue.jpeg",
                     reviews: 0,
                     rating: 0
@@ -78,7 +86,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 8,
                     name: "Green Abaya",
-                    price: "$80.00 USD",
+                    price: "KSh 2,800",
                     image: "/abayas/green abaya.jpeg",
                     reviews: 0,
                     rating: 0
@@ -86,20 +94,28 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 9,
                     name: "Floral Black Abaya",
-                    price: "$90.00 USD",
+                    price: "KSh 1,900",
                     image: "/abayas/floral black abaya.jpeg",
                     reviews: 0,
                     rating: 0
                 },
                 {
                     id: 10,
-                    name: "Gray and Black Abaya",
-                    price: "$66.00 USD",
-                    image: "/abayas/gray and black.jpeg",
-                    reviews: 0,
-                    rating: 0
+                    name: "black abaya",
+                    price: "KSh 2,600",
+                    image: "/abayas/summer abayas (1).jpeg",
+                    reviews: 2,
+                    rating: 1
+                },
+                {
+                    id: 10,
+                    name: "sky-blue abaya",
+                    price: "KSh 3,600",
+                    image: "/abayas/summer abayas (2).jpeg",
+                    reviews: 3,
+                    rating: 4
                 }
-            ]            
+            ]
         },
         {
             title: "Professional Abayas",
@@ -107,7 +123,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 11,
                     name: "white and emerald",
-                    price: "$120.00 USD",
+                    price: "KSh 1,200",
                     image: "/abayas/3 pieces white and emerald .jpeg",
                     reviews: 2,
                     rating: 4
@@ -115,7 +131,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 12,
                     name: "brown set abaya",
-                    price: "$135.00 USD",
+                    price: "KSh 1,300",
                     image: "/abayas/3 pieces brown abaya.jpeg",
                     reviews: 5,
                     rating: 5
@@ -123,7 +139,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 13,
                     name: "white and green abaya",
-                    price: "$150.00 USD",
+                    price: "KSh 1,500",
                     image: "/abayas/3 pieces white and green abaya.jpeg",
                     reviews: 5,
                     rating: 5
@@ -131,7 +147,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 14,
                     name: "black and white abaya",
-                    price: "$145.00 USD",
+                    price: "KSh 1,400",
                     image: "/abayas/black and white.jpeg",
                     reviews: 4,
                     rating: 4
@@ -139,7 +155,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 15,
                     name: "white and latte abaya",
-                    price: "$160.00 USD",
+                    price: "KSh 1,600",
                     image: "/abayas/stars 3 pieces white and green abaya.jpeg",
                     reviews: 5,
                     rating: 5
@@ -148,49 +164,49 @@ function Collection({ titles, isFullView = false }) {
         },
         {
             title: "Occasion Abayas",
-                products: [
-                    {
-                        id: 16,
-                        name: "baby blue & white",
-                        price: "$50.00 USD",
-                        image: "/abayas/occasion abaya  (1).jpeg",
-                        reviews: 5,
-                        rating: 5,
-			description: "Elegant baby blue and white abaya perfect for special occasions. Features a flowing design with intricate detailing."
-                    },
-                    {
-                        id: 17,
-                        name: "Beige abaya",
-                        price: "$70.00 USD",
-                        image: "/abayas/occasion abaya  (3).jpeg",
-                        reviews: 4,
-                        rating: 4
-                    },
-                    {
-                        id: 18,
-                        name: "white and blue",
-                        price: "$90.00 USD",
-                        image: "/abayas/occasion abaya  (5).jpeg",
-                        reviews: 4,
-                        rating: 4
-                    },
-                    {
-                        id: 19,
-                        name: "Purple abaya",
-                        price: "$80.00 USD",
-                        image: "/abayas/occasion abaya  (2).jpeg",
-                        reviews: 2,
-                        rating: 2
-                    },
-                    {
-                        id: 20,
-                        name: "Sand beige abaya",
-                        price: "$100.00 USD",
-                        image: "/abayas/occasion abaya  (4).jpeg",
-                        reviews: 3,
-                        rating: 3
-                    }
-                ]
+            products: [
+                {
+                    id: 16,
+                    name: "baby blue & white",
+                    price: "KSh 2,500",
+                    image: "/abayas/occasion abaya  (1).jpeg",
+                    reviews: 5,
+                    rating: 5,
+                    description: "Elegant baby blue and white abaya perfect for special occasions. Features a flowing design with intricate detailing."
+                },
+                {
+                    id: 17,
+                    name: "Beige abaya",
+                    price: "KSh 1,900",
+                    image: "/abayas/occasion abaya  (3).jpeg",
+                    reviews: 4,
+                    rating: 4
+                },
+                {
+                    id: 18,
+                    name: "white and blue",
+                    price: "KSh 2,900",
+                    image: "/abayas/occasion abaya  (5).jpeg",
+                    reviews: 4,
+                    rating: 4
+                },
+                {
+                    id: 19,
+                    name: "Purple abaya",
+                    price: "KSh 2,800",
+                    image: "/abayas/occasion abaya  (2).jpeg",
+                    reviews: 2,
+                    rating: 2
+                },
+                {
+                    id: 20,
+                    name: "Sand beige abaya",
+                    price: "KSh 1,000",
+                    image: "/abayas/occasion abaya  (4).jpeg",
+                    reviews: 3,
+                    rating: 3
+                }
+            ]
         },
         {
             title: "Jewelry",
@@ -198,7 +214,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 21,
                     name: "naimah jewels 1",
-                    price: "$320.00 USD",
+                    price: "KSh 3,200",
                     image: "/jewel/jewel (1).jpeg",
                     reviews: 4,
                     rating: 4
@@ -206,7 +222,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 22,
                     name: "naimah jewels 2",
-                    price: "$350.00 USD",
+                    price: "KSh 3,500",
                     image: "/jewel/jewel (2).jpeg",
                     reviews: 5,
                     rating: 5
@@ -214,7 +230,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 23,
                     name: "naimah jewels 3",
-                    price: "$300.00 USD",
+                    price: "KSh 3,000",
                     image: "/jewel/jewel (3).jpeg",
                     reviews: 3,
                     rating: 3
@@ -222,7 +238,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 24,
                     name: "naimah jewels 4",
-                    price: "$400.00 USD",
+                    price: "KSh 4,000",
                     image: "/jewel/jewel (4).jpeg",
                     reviews: 5,
                     rating: 5
@@ -230,7 +246,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 25,
                     name: "naimah jewels 5",
-                    price: "$500.00 USD",
+                    price: "KSh 5,000",
                     image: "/jewel/jewel (5).jpeg",
                     reviews: 4,
                     rating: 4
@@ -238,7 +254,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 26,
                     name: "naimah jewels 6",
-                    price: "$300.00 USD",
+                    price: "KSh 3,000",
                     image: "/jewel/jewel (6).jpeg",
                     reviews: 4,
                     rating: 4
@@ -246,7 +262,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 27,
                     name: "naimah jewels 7",
-                    price: "$50.00 USD",
+                    price: "KSh 5,000",
                     image: "/jewel/jewel (7).jpeg",
                     reviews: 4,
                     rating: 4
@@ -254,7 +270,7 @@ function Collection({ titles, isFullView = false }) {
                 {
                     id: 28,
                     name: "naimah jewels 8",
-                    price: "$430.00 USD",
+                    price: "KSh 4,300",
                     image: "/jewel/jewel (4).jpeg",
                     reviews: 4,
                     rating: 4
@@ -262,7 +278,7 @@ function Collection({ titles, isFullView = false }) {
             ]
         }
     ];
-    
+
     const currentCollections = isFullView
         ? collections.filter(c => c.title.toLowerCase().replace(/\s+/g, '-') === collectionName)
         : (titles ? collections.filter(c => titles.includes(c.title)) : collections);

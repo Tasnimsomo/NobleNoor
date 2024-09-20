@@ -1,27 +1,23 @@
-.product-layout {
+body {
+    background-color: white;
+}
+
+.product-layout, .collections-container {
     padding: 20px;
+    text-align: left;
+}
+
+.section-title, .collection-title {
+    margin-bottom: 20px;
     text-align: left;
 }
 
 .section-title {
     font-size: 2rem;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.collections-container {
-    max-width: 100%;
-    padding: 20px;
-}
-
-.collection-section {
-    margin-bottom: 40px;
 }
 
 .collection-title {
     font-size: 32px;
-    margin-bottom: 20px;
-    text-align: left;
     font-weight: 400;
     font-family: Assistant;
 }
@@ -33,12 +29,12 @@
 }
 
 .view-all-btn {
-    padding: 10px 20px;
+    padding: 15px 25px;
     background-color: #fa9530;
     color: black;
     border: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
     transition: background-color 0.3s ease;
 }
@@ -51,6 +47,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
+    background-color: white;
 }
 
 .product-card {
@@ -95,7 +92,6 @@
 .product-price {
     font-size: 1rem;
     font-weight: normal;
-    text-align: left;
     margin-bottom: 10px;
 }
 
@@ -108,16 +104,14 @@ h2 {
 
 .add-to-cart-button {
     background-color: #030403;
-    border: none;
     color: white;
-    padding: 10px 10px;
+    padding: 15px 18px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    font-size: 18px;
     margin: 4px 0;
     cursor: pointer;
-    border-radius: 4px;
+    border: none;
+    border-radius: 25px;
     transition: background-color 0.3s;
     width: 100%;
 }
@@ -141,29 +135,10 @@ h2 {
     z-index: 1000;
 }
 
-.product-sidebar .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
 .product-sidebar img {
     width: 100%;
     height: auto;
     margin-bottom: 15px;
-}
-
-.product-sidebar h2 {
-    margin-top: 0;
-}
-
-.product-sidebar .add-to-cart-button {
-    width: 100%;
-    margin-top: 15px;
 }
 
 .product-description {
@@ -171,13 +146,10 @@ h2 {
     line-height: 1.6;
 }
 
-.size-chart-container {
-    margin-bottom: 20px;
-}
-
 .size-chart {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 .size-chart th, .size-chart td {
@@ -195,10 +167,6 @@ h2 {
     background-color: #f9f9f9;
 }
 
-.size-chart tbody tr:nth-child(even) {
-    background-color: #ffffff;
-}
-
 .sidebar-content {
     flex-grow: 1;
     overflow-y: auto;
@@ -209,21 +177,6 @@ h2 {
 .sidebar-footer {
     padding-top: 10px;
     border-top: 1px solid #ddd;
-}
-
-.add-to-cart-button {
-    width: 100%;
-    padding: 15px;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s;
-}
-
-.add-to-cart-button:hover {
-    background-color: #45a049;
 }
 
 .close-btn {
@@ -308,7 +261,7 @@ h2 {
     }
 
     .add-to-cart-button {
-        padding: 6px 10px;
+        padding: 8px 12px;
         font-size: 0.8rem;
     }
 }
@@ -318,4 +271,3 @@ h2 {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     }
 }
-

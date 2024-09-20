@@ -10,34 +10,36 @@ function Cart() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchCartItems = async () => {
-            try {
-                const storedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-                // Ensure each item has a price
-                const itemsWithPrices = storedItems.map(item => ({
-                    ...item,
-                    price: item.price || 0 // Default to 0 if price is missing
-                }));
-                setCartItems(itemsWithPrices);
-            } catch (error) {
-                console.error('Error fetching cart items:', error);
-            }
-        };
-
         fetchCartItems();
         window.addEventListener('itemAddedToCart', handleItemAdded);
+        window.addEventListener('cartUpdated', fetchCartItems);
 
         return () => {
             window.removeEventListener('itemAddedToCart', handleItemAdded);
+            window.removeEventListener('cartUpdated', fetchCartItems);
         };
     }, []);
+
+    const fetchCartItems = () => {
+        try {
+            const storedItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const itemsWithPrices = storedItems.map(item => ({
+                ...item,
+                price: typeof item.price === 'string' ? parseFloat(item.price.replace(/[^\d.]/g, '')) : item.price
+            }));
+            setCartItems(itemsWithPrices);
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
+        }
+    };
 
     const handleItemAdded = () => {
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 3000);
+        fetchCartItems();
     };
 
-    const removeItem = async (productId) => {
+    const removeItem = (productId) => {
         try {
             const updatedItems = cartItems.filter(item => item.id !== productId);
             setCartItems(updatedItems);
@@ -48,7 +50,7 @@ function Cart() {
         }
     };
 
-    const updateQuantity = async (productId, newQuantity) => {
+    const updateQuantity = (productId, newQuantity) => {
         try {
             if (newQuantity <= 0) {
                 throw new Error('Quantity must be a positive number');
@@ -70,9 +72,8 @@ function Cart() {
     };
 
     const getItemPrice = (item) => {
-      return typeof item.price === 'number' ? item.price : 
-             typeof item.price === 'string' ? parseFloat(item.price.replace('$', '').replace(' USD', '')) : 0;
-  };
+        return typeof item.price === 'number' ? item.price : 0;
+    };
 
     const calculateItemTotal = (item) => {
         return getItemPrice(item) * item.quantity;
@@ -101,19 +102,19 @@ function Cart() {
                     <img src={item.image} alt={item.name} />
                     <div className="item-details">
                         <h3>{item.name}</h3>
-                        <p>${getItemPrice(item).toFixed(2)} USD</p>
+                        <p>KSh {getItemPrice(item).toFixed(2)}</p>
                         <div className="quantity-controls">
                             <button onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}>-</button>
                             <span>{item.quantity}</span>
                             <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                         </div>
-                        <p>Item Total: ${calculateItemTotal(item).toFixed(2)} USD</p>
+                        <p>Item Total: KSh {calculateItemTotal(item).toFixed(2)}</p>
                     </div>
                     <button className="remove-item" onClick={() => removeItem(item.id)}>🗑️</button>
                 </div>
             ))}
             <div className="cart-summary">
-                <p>Estimated total: ${totalPrice.toFixed(2)} USD</p>
+                <p>Estimated total: KSh {totalPrice.toFixed(2)}</p>
                 <button className="checkout-button" onClick={handleCheckout}>Check out</button>
             </div>
         </div>

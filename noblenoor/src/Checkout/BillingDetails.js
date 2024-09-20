@@ -1,10 +1,10 @@
 import React from 'react';
 
-const BillingDetails = ({ billingDetails, handleBillingChange }) => {
+const BillingDetails = ({ billingDetails, handleBillingChange, errors }) => {
   return (
     <div className="billing-details">
       <h2>Billing Details</h2>
-      <form>
+      <div>
         <input
           type="text"
           name="firstName"
@@ -12,6 +12,9 @@ const BillingDetails = ({ billingDetails, handleBillingChange }) => {
           value={billingDetails.firstName}
           onChange={handleBillingChange}
         />
+        {errors.firstName && <span className="error">{errors.firstName}</span>}
+      </div>
+      <div>
         <input
           type="text"
           name="lastName"
@@ -19,6 +22,9 @@ const BillingDetails = ({ billingDetails, handleBillingChange }) => {
           value={billingDetails.lastName}
           onChange={handleBillingChange}
         />
+        {errors.lastName && <span className="error">{errors.lastName}</span>}
+      </div>
+      <div>
         <input
           type="text"
           name="country"
@@ -26,6 +32,9 @@ const BillingDetails = ({ billingDetails, handleBillingChange }) => {
           value={billingDetails.country}
           onChange={handleBillingChange}
         />
+        {errors.country && <span className="error">{errors.country}</span>}
+      </div>
+      <div>
         <input
           type="tel"
           name="phone"
@@ -33,6 +42,9 @@ const BillingDetails = ({ billingDetails, handleBillingChange }) => {
           value={billingDetails.phone}
           onChange={handleBillingChange}
         />
+        {errors.phone && <span className="error">{errors.phone}</span>}
+      </div>
+      <div>
         <input
           type="email"
           name="email"
@@ -40,7 +52,8 @@ const BillingDetails = ({ billingDetails, handleBillingChange }) => {
           value={billingDetails.email}
           onChange={handleBillingChange}
         />
-      </form>
+        {errors.email && <span className="error">{errors.email}</span>}
+      </div>
     </div>
   );
 };

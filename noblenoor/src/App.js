@@ -6,12 +6,14 @@ import HeroSection from './Hero/HeroSection';
 import Collection from './Collection/Collection.js';
 import Cart from './Cart/Cart.js';
 import Checkout from './Checkout/CheckoutPage.js';
+import Order from './Checkout/order';
 import Login from './Profile/Login.js';
 import Signup from './Profile/Signup.js';
 import AccountPage from './Profile/AccountPage.js';
 import AuthProvider from "./Profile/AuthProvider.js";
 import AdminPage from './Admin/adminPage.js';
 import PrivateRoute from './PrivateRoute.js';
+import Footer from './Footer/footer.js';
 
 function Layout() {
   return (
@@ -42,6 +44,7 @@ function App() {
             <Route path="/collection/:collectionName" element={<Collection isFullView={true} />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order" element={<Order />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route element={<PrivateRoute />}>
@@ -50,6 +53,7 @@ function App() {
           </Route>
         </Routes>
       </AuthProvider>
+      <Footer />
     </Router>
   );
 }

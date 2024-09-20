@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BillingDetails from './BillingDetails';
 import PaymentInstructions from './PaymentInstructions';
 import './CheckoutPage.css';
 
 const Checkout = () => {
+  const navigate = useNavigate();
   const [billingDetails, setBillingDetails] = useState({
     firstName: '',
     lastName: '',
@@ -13,6 +15,7 @@ const Checkout = () => {
   });
 
   const [mpesaCode, setMpesaCode] = useState('');
+  const [errors, setErrors] = useState({});
 
   const handleBillingChange = (e) => {
     setBillingDetails({ ...billingDetails, [e.target.name]: e.target.value });
@@ -22,49 +25,56 @@ const Checkout = () => {
     setMpesaCode(e.target.value);
   };
 
-  const handleCompleteOrder = async () => {
-    try {
-      // Send order details to backend
-      const response = await axios.post('/orders/complete-order', {
-        billingDetails,
-        mpesaCode,
-      });
+  const validateForm = () => {
+    const newErrors = {};
+    if (!billingDetails.firstName) newErrors.firstName = 'First name is required';
+    if (!billingDetails.lastName) newErrors.lastName = 'Last name is required';
+    if (!billingDetails.country) newErrors.country = 'Country is required';
+    if (!billingDetails.phone) newErrors.phone = 'Phone is required';
+    if (!billingDetails.email) newErrors.email = 'Email is required';
+    if (!mpesaCode) newErrors.mpesaCode = 'M-PESA code is required';
 
-      if (response.data.success) {
-        alert('Order completed successfully!');
-        // Reset form
-        setBillingDetails({
-          firstName: '',
-          lastName: '',
-          country: '',
-          phone: '',
-          email: '',
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleCompleteOrder = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      // Simulate order processing
+      setTimeout(() => {
+        // Redirect to order confirmation page
+        navigate('/order', { 
+          state: { 
+            name: `${billingDetails.firstName} ${billingDetails.lastName}`,
+            email: billingDetails.email
+          } 
         });
-        setMpesaCode('');
-      } else {
-        alert('Error completing order. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error completing order. Please try again.');
+      }, 1500); // Simulate a short delay
     }
   };
 
   return (
     <div className="checkout-page">
-      <div className="checkout-content">
-        <BillingDetails
-          billingDetails={billingDetails}
-          handleBillingChange={handleBillingChange}
-        />
-        <PaymentInstructions
-          mpesaCode={mpesaCode}
-          handleMpesaCodeChange={handleMpesaCodeChange}
-        />
-      </div>
-      <button className="complete-order-btn" onClick={handleCompleteOrder}>
-        Complete Order
-      </button>
+      <form onSubmit={handleCompleteOrder}>
+        <div className="checkout-content">
+          <BillingDetails
+            billingDetails={billingDetails}
+            handleBillingChange={handleBillingChange}
+            errors={errors}
+          />
+          <PaymentInstructions
+            mpesaCode={mpesaCode}
+            handleMpesaCodeChange={handleMpesaCodeChange}
+            error={errors.mpesaCode}
+          />
+        </div>
+        <div className="button-container">
+          <button type="submit" className="complete-order-btn">
+            Complete Order
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
