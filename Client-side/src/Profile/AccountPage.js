@@ -14,7 +14,7 @@ const AccountPage = () => {
         </div>
         
         <div className="account-details">
-          <h2>Accounts details</h2>
+          <h2>Account details</h2>
         </div>
       </div>
     </div>
